@@ -20,8 +20,11 @@
         <tbody>
         <tr th:each="c : ${competitions}" th:classappend="${c.live} ? 'live'">
             <td><a th:href="@{/competitions/{id}(id=${c.id})}" th:text="${c.name}">Соревнование</a></td>
-            <td><span th:text="${c.statusLabel}">статус</span></td>
-            <td th:text="${c.startsAt}">дата</td>
+            <td>
+                <span th:if="${c.live}" class="badge badge-live" th:text="${c.statusLabel}">Идёт сейчас</span>
+                <span th:unless="${c.live}" class="badge" th:text="${c.statusLabel}">статус</span>
+            </td>
+            <td class="muted" th:text="${c.startsAt}">дата</td>
         </tr>
         </tbody>
     </table>

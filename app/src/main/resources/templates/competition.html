@@ -7,7 +7,7 @@
 <main>
     <p class="crumbs"><a th:href="@{/}">← Все соревнования</a></p>
     <h1 th:text="${competition.name}">Название</h1>
-    <p class="status" th:text="${competition.statusLabel}">статус</p>
+    <p><span class="badge" th:text="${competition.statusLabel}">статус</span></p>
     <p th:if="${competition.description}" th:text="${competition.description}" class="desc">Описание</p>
 
     <h2>Заезды</h2>

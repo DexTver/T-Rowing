@@ -1,118 +1,301 @@
 :root {
-    --bg: #f7f8fa;
-    --fg: #1c2530;
-    --muted: #6b7785;
-    --line: #d9dee5;
-    --accent: #1565c0;
-    --live: #fff4e5;
+    --bg: #eef2f6;
+    --surface: #ffffff;
+    --surface-2: #f7f9fb;
+    --fg: #17212b;
+    --muted: #64748b;
+    --line: #e4e9ef;
+    --line-strong: #d2dae3;
+
+    --primary: #1766c2;
+    --primary-700: #11539e;
+    --primary-050: #e9f1fb;
+
+    --ok: #15803d;
+    --ok-050: #e7f4ec;
+    --danger: #c0322b;
+    --danger-050: #fbeceb;
+    --live: #b45309;
+    --live-050: #fdf2e3;
+
+    --radius: 10px;
+    --radius-sm: 7px;
+    --shadow: 0 1px 2px rgba(16, 32, 52, .06), 0 4px 16px rgba(16, 32, 52, .05);
+    --ring: 0 0 0 3px rgba(23, 102, 194, .18);
 }
 
 * { box-sizing: border-box; }
 
+html { -webkit-text-size-adjust: 100%; }
+
 body {
     margin: 0;
-    font-family: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
     color: var(--fg);
     background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--primary-700); text-decoration: underline; }
+
+/* ---------- Шапка ---------- */
 .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: .6rem 1.2rem;
-    background: #fff;
+    gap: .25rem;
+    flex-wrap: wrap;
+    padding: .55rem 1.25rem;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: saturate(180%) blur(8px);
     border-bottom: 1px solid var(--line);
 }
-
-.topbar .brand { font-weight: 700; text-decoration: none; color: var(--fg); }
-.topbar nav { display: flex; align-items: center; gap: 1rem; flex: 1; }
+.topbar .brand {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--fg);
+    margin-right: .75rem;
+    letter-spacing: -.01em;
+}
+.topbar .brand:hover { text-decoration: none; }
+.topbar nav { display: flex; align-items: center; gap: .15rem; flex: 1; flex-wrap: wrap; }
+.topbar nav > a {
+    color: var(--muted);
+    padding: .4rem .7rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+}
+.topbar nav > a:hover { color: var(--fg); background: var(--surface-2); text-decoration: none; }
 .topbar nav .spacer { flex: 1; }
-.topbar a { color: var(--accent); text-decoration: none; }
+.topbar nav b { color: var(--fg); font-weight: 600; margin-right: .25rem; }
 
-main { max-width: 1000px; margin: 1.5rem auto; padding: 0 1.2rem; }
+/* ---------- Каркас ---------- */
+main {
+    max-width: 1060px;
+    margin: 1.75rem auto 3rem;
+    padding: 0 1.25rem;
+}
 
-h1 { font-size: 1.5rem; }
+h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; margin: .2rem 0 .9rem; }
+h2 { font-size: 1.2rem; font-weight: 650; margin: 1.8rem 0 .7rem; }
+h3 { font-size: 1.02rem; font-weight: 650; }
+
 .muted { color: var(--muted); }
-.error { color: #c62828; }
-.crumbs { font-size: .9rem; }
-.status { color: var(--muted); margin-top: -.4rem; }
-.desc { white-space: pre-line; }
-
+.crumbs { font-size: .9rem; margin-bottom: .4rem; }
+.crumbs a { color: var(--muted); }
+.status { color: var(--muted); margin-top: -.5rem; }
+.desc { white-space: pre-line; color: #34414f; }
 .inline { display: inline; }
 
+/* Уведомления */
+.error, .ok {
+    padding: .6rem .85rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid;
+    margin: .4rem 0 1rem;
+}
+.error { color: var(--danger); background: var(--danger-050); border-color: #f0c9c6; }
+.ok { color: var(--ok); background: var(--ok-050); border-color: #c5e4d0; }
+
+/* ---------- Бейджи статусов ---------- */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .15rem .55rem;
+    font-size: .8rem;
+    font-weight: 600;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    white-space: nowrap;
+}
+.badge-live { background: var(--live-050); color: var(--live); border-color: #f3dcb8; }
+.badge-live::before {
+    content: "";
+    width: .45rem; height: .45rem; border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 3px rgba(180, 83, 9, .15);
+}
+.badge-ok { background: var(--ok-050); color: var(--ok); border-color: #c5e4d0; }
+
+/* ---------- Кнопки ---------- */
+button, .btn, .btn-ghost {
+    font: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    padding: .48rem .9rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--fg);
+    font-weight: 550;
+    transition: background .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+button:hover, .btn-ghost:hover { background: var(--surface-2); border-color: #bcc7d3; text-decoration: none; }
+button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+    border-color: var(--primary);
+}
+.btn {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+.btn:hover { background: var(--primary-700); border-color: var(--primary-700); color: #fff; text-decoration: none; }
+
+/* ---------- Таблицы ---------- */
 table.grid {
     width: 100%;
-    border-collapse: collapse;
-    background: #fff;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--surface);
     border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
 }
 table.grid th, table.grid td {
     text-align: left;
-    padding: .45rem .6rem;
+    padding: .6rem .8rem;
     border-bottom: 1px solid var(--line);
+    vertical-align: middle;
 }
-table.grid thead th { background: #eef1f5; }
-table.grid tr.live td { background: var(--live); }
-
-.filters { display: flex; flex-wrap: wrap; gap: .8rem; align-items: end; margin-bottom: 1rem; }
-.filters label { display: flex; flex-direction: column; font-size: .85rem; color: var(--muted); }
-.filters input { padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 4px; }
-button { padding: .4rem .9rem; cursor: pointer; }
-.captcha-box { display: flex; flex-direction: column; }
-
-.btn {
-    display: inline-block;
-    padding: .45rem .9rem;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 4px;
-    text-decoration: none;
+table.grid thead th {
+    background: var(--surface-2);
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
 }
-.stack { display: flex; flex-direction: column; gap: .8rem; max-width: 420px; }
-.stack input, .stack textarea { padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 4px; }
-.actions { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0; }
-.heatcard { margin: .8rem 0 1.2rem; }
-.heatcard h4 { margin: .2rem 0; }
+table.grid tbody tr:last-child td { border-bottom: none; }
+table.grid tbody tr:hover td { background: var(--primary-050); }
+table.grid tr.live td { background: var(--live-050); }
+
+/* ---------- Формы ---------- */
+input, select, textarea {
+    font: inherit;
+    color: var(--fg);
+    padding: .5rem .65rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    transition: border-color .12s ease, box-shadow .12s ease;
+}
+input::placeholder, textarea::placeholder { color: #9aa6b2; }
+label { color: var(--fg); }
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+    align-items: end;
+    margin-bottom: 1.2rem;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.filters label { display: flex; flex-direction: column; gap: .25rem; font-size: .82rem; color: var(--muted); }
+.captcha-box { display: flex; flex-direction: column; gap: .25rem; }
+
+.stack { display: flex; flex-direction: column; gap: .7rem; max-width: 440px; }
+.stack input, .stack select, .stack textarea { width: 100%; }
+
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.1rem 0; }
 .cols { display: flex; gap: 2rem; flex-wrap: wrap; align-items: start; }
-.chk { flex-direction: row; align-items: center; gap: .3rem; color: var(--fg); }
-textarea { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+.chk { flex-direction: row; align-items: center; gap: .4rem; color: var(--fg); }
+textarea { font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace; line-height: 1.5; }
 
-/* Дни соревнования — отдельными таблицами. */
-.day-block { margin-bottom: 1.6rem; }
-.day-title { margin: 1rem 0 .4rem; padding-bottom: .2rem; border-bottom: 2px solid var(--accent); }
+/* ---------- Дни и протокол ---------- */
+.day-block { margin-bottom: 1.8rem; }
+.day-title {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin: 1.2rem 0 .7rem;
+    padding: .15rem 0;
+    color: var(--fg);
+    border-bottom: 2px solid var(--primary);
+}
 
-/* Протокол: карточки заездов, раскрываемые на месте (раздел 7.1). */
-.protocol { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #fff; }
+.protocol {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
 .protocol .heat { border-bottom: 1px solid var(--line); }
 .protocol .heat:last-child { border-bottom: none; }
 .protocol summary {
     list-style: none;
     cursor: pointer;
-    padding: .5rem .8rem;
+    padding: .7rem .9rem;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: .2rem 1rem;
+    gap: .25rem 1rem;
+    transition: background .12s ease;
 }
 .protocol summary::-webkit-details-marker { display: none; }
-.protocol summary:hover { background: #eef4fb; }
-.protocol details[open] > summary { background: #e8eef6; border-bottom: 1px solid var(--line); }
-.protocol .hno { font-weight: 700; min-width: 3rem; }
-.protocol .htime { color: var(--muted); min-width: 3rem; }
+.protocol summary::before {
+    content: "";
+    align-self: center;
+    width: .42rem; height: .42rem;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: rotate(-45deg);
+    transition: transform .15s ease;
+    margin-right: .15rem;
+}
+.protocol details[open] > summary::before { transform: rotate(45deg); }
+.protocol summary:hover { background: var(--surface-2); }
+.protocol details[open] > summary { background: var(--primary-050); border-bottom: 1px solid var(--line); }
+.protocol .hno { font-weight: 700; min-width: 2.6rem; }
+.protocol .htime {
+    color: var(--muted);
+    min-width: 3rem;
+    font-variant-numeric: tabular-nums;
+}
 .protocol .hcat { flex: 1; min-width: 14rem; }
-.protocol .hstage { font-weight: 600; color: var(--accent); }
-.protocol .hadv { font-size: .85rem; }
-.protocol table.lanes { border: none; }
-.protocol table.lanes th { background: #f4f6f9; }
-.protocol table.lanes th, .protocol table.lanes td { border-bottom: 1px solid var(--line); }
+.protocol .hstage { font-weight: 600; color: var(--primary); }
+.protocol .hadv { font-size: .85rem; color: var(--muted); }
+.protocol table.lanes { border: none; border-radius: 0; box-shadow: none; }
+.protocol table.lanes th { background: var(--surface-2); }
+.protocol table.lanes tbody tr:hover td { background: var(--surface-2); }
 
-/* Печать протоколов (раздел 7.3, п.3). */
+/* ---------- Адаптив ---------- */
+@media (max-width: 720px) {
+    main { margin-top: 1.1rem; padding: 0 1rem; }
+    h1 { font-size: 1.35rem; }
+    .topbar { padding: .5rem .8rem; }
+    .topbar nav { gap: 0; }
+    .topbar nav > a { padding: .35rem .5rem; }
+    .table-wrap { overflow-x: auto; }
+    table.grid { font-size: .92rem; }
+}
+
+/* ---------- Печать ---------- */
 @media print {
     .topbar, .filters, .crumbs, .actions, .no-print { display: none; }
-    body { background: #fff; }
-    table.grid { border-color: #000; }
-    .heatcard { page-break-inside: avoid; }
+    body { background: #fff; font-size: 12px; }
+    main { margin: 0; max-width: none; }
+    table.grid, .protocol { box-shadow: none; border-color: #999; }
     .protocol details { page-break-inside: avoid; }
     .protocol details[open] table { display: table; }
+    .protocol summary::before { display: none; }
 }

@@ -8,7 +8,7 @@
     <p class="crumbs"><a th:href="@{/trainer}">← К соревнованиям</a></p>
     <h1 th:text="${c.name}">Соревнование</h1>
 
-    <p th:if="${ok}" th:text="${ok}" class="status"></p>
+    <p th:if="${ok}" th:text="${ok}" class="ok"></p>
     <p th:if="${error}" th:text="${error}" class="error"></p>
 
     <h2>Мои заявки</h2>
