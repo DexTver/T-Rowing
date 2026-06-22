@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Админка')}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <h1>Администрирование</h1>
+    <p th:if="${ok}" th:text="${ok}" class="status"></p>
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/admin/users}">Пользователи</a>
+        <a class="btn" th:href="@{/admin/coaches}">Тренеры</a>
+        <a class="btn" th:href="@{/admin/athletes}">Спортсмены</a>
+        <a class="btn" th:href="@{/admin/plans}">Файлы сеток</a>
+    </div>
+
+    <h2>База данных</h2>
+    <table class="grid" style="max-width:420px">
+        <tbody>
+        <tr><td>Пользователи</td><td th:text="${overview.users}">0</td></tr>
+        <tr><td>Тренеры</td><td th:text="${overview.coaches}">0</td></tr>
+        <tr><td>Спортсмены</td><td th:text="${overview.athletes}">0</td></tr>
+        <tr><td>Соревнования</td><td th:text="${overview.competitions}">0</td></tr>
+        <tr><td>Категории</td><td th:text="${overview.categories}">0</td></tr>
+        <tr><td>Заявки</td><td th:text="${overview.entries}">0</td></tr>
+        <tr><td>Заезды</td><td th:text="${overview.heats}">0</td></tr>
+        <tr><td>Результаты</td><td th:text="${overview.results}">0</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Соревнования</h2>
+    <p th:if="${competitions.isEmpty()}" class="muted">Нет соревнований.</p>
+    <table th:unless="${competitions.isEmpty()}" class="grid">
+        <thead>
+        <tr><th>Название</th><th>Статус</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${competitions}">
+            <td th:text="${c.name}">соревнование</td>
+            <td th:text="${c.statusLabel}">статус</td>
+            <td>
+                <form method="post" th:action="@{/admin/competitions/{id}/delete(id=${c.id})}" class="inline"
+                      onsubmit="return confirm('Удалить соревнование и все его данные?');">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(${c.name})}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <p class="crumbs"><a th:href="@{/trainer}">← К соревнованиям</a></p>
+    <h1 th:text="${c.name}">Соревнование</h1>
+
+    <p th:if="${ok}" th:text="${ok}" class="status"></p>
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <h2>Мои заявки</h2>
+    <p th:if="${c.myEntries.isEmpty()}" class="muted">Вы ещё не подавали заявок.</p>
+    <table th:unless="${c.myEntries.isEmpty()}" class="grid">
+        <thead>
+        <tr>
+            <th>Спортсмен</th>
+            <th>Г.р.</th>
+            <th>Категория</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="e : ${c.myEntries}">
+            <td th:text="${e.athleteName}">спортсмен</td>
+            <td>
+                <span th:text="${e.birthYear}">2008</span>
+                <span th:if="${e.ageWarning}" class="error" title="Год рождения вне диапазона категории">⚠</span>
+            </td>
+            <td th:text="${e.categoryName}">категория</td>
+            <td>
+                <form th:if="${e.canDelete}" method="post"
+                      th:action="@{/trainer/entries/{id}/delete(id=${e.id})}" class="inline">
+                    <input type="hidden" name="competitionId" th:value="${c.id}">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${!c.anyOpen}" class="muted" style="margin-top:1rem">
+        В этом соревновании сейчас нет категорий с открытой регистрацией.
+    </div>
+
+    <div th:if="${c.anyOpen}">
+        <h2>Добавить нового спортсмена</h2>
+        <form method="post" th:action="@{/trainer/competitions/{id}/athletes(id=${c.id})}" class="stack">
+            <input type="text" name="fullName" placeholder="ФИО" required>
+            <input type="number" name="birthYear" placeholder="Год рождения" required min="1900" max="2100">
+            <input type="text" name="rank" placeholder="Разряд">
+            <input type="text" name="region" placeholder="Субъект">
+            <input type="text" name="school" placeholder="Спорт-школа">
+            <button type="submit">Создать спортсмена</button>
+        </form>
+
+        <h2>Подать заявку</h2>
+        <div class="cols">
+            <label>Спортсмен
+                <input type="text" id="athleteFilter" placeholder="поиск по имени…"
+                       oninput="filterSel('athleteSelect', this.value)">
+                <select id="athleteSelect" size="6">
+                    <option th:each="a : ${c.myAthletes}" th:value="${a.id}"
+                            th:attr="data-birth=${a.birthYear}, data-name=${a.name}"
+                            th:text="${a.name + ' (' + a.birthYear + ')'}"></option>
+                </select>
+            </label>
+            <label>Категория
+                <input type="text" id="catFilter" placeholder="поиск…"
+                       oninput="filterSel('catSelect', this.value)">
+                <select id="catSelect" size="6">
+                    <option th:each="cat : ${c.openCategories}" th:value="${cat.id}"
+                            th:attr="data-from=${cat.birthFrom}, data-to=${cat.birthTo}, data-name=${cat.name}"
+                            th:text="${cat.name}"></option>
+                </select>
+            </label>
+        </div>
+        <div class="actions">
+            <button type="button" onclick="addRow()">Добавить ↓</button>
+        </div>
+
+        <form id="commitForm" method="post" th:action="@{/trainer/competitions/{id}/entries(id=${c.id})}">
+            <table class="grid">
+                <thead>
+                <tr>
+                    <th>Спортсмен</th>
+                    <th>Категория</th>
+                    <th>Примечание</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="staging"></tbody>
+            </table>
+            <div class="actions">
+                <button type="submit">Добавить спортсменов в заявку</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script th:inline="none">
+    function filterSel(id, q) {
+        q = (q || '').toLowerCase();
+        document.querySelectorAll('#' + id + ' option').forEach(function (o) {
+            o.hidden = q.length > 0 && o.text.toLowerCase().indexOf(q) === -1;
+        });
+    }
+
+    function addRow() {
+        var aSel = document.getElementById('athleteSelect');
+        var cSel = document.getElementById('catSelect');
+        var a = aSel.selectedOptions[0];
+        var c = cSel.selectedOptions[0];
+        if (!a || !c) {
+            alert('Выберите спортсмена и категорию.');
+            return;
+        }
+        var note = '';
+        var birth = parseInt(a.getAttribute('data-birth'), 10);
+        var from = parseInt(c.getAttribute('data-from'), 10);
+        var to = parseInt(c.getAttribute('data-to'), 10);
+        if ((!isNaN(from) && birth < from) || (!isNaN(to) && birth > to)) {
+            note = '⚠ год рождения вне диапазона категории';
+        }
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+            '<td>' + a.getAttribute('data-name') + '<input type="hidden" name="athleteId" value="' + a.value + '"></td>' +
+            '<td>' + c.getAttribute('data-name') + '<input type="hidden" name="categoryId" value="' + c.value + '"></td>' +
+            '<td class="error">' + note + '</td>' +
+            '<td><button type="button">убрать</button></td>';
+        tr.querySelector('button').onclick = function () { tr.remove(); };
+        document.getElementById('staging').appendChild(tr);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Файлы сеток')}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <p class="crumbs"><a th:href="@{/admin}">← Админка</a></p>
+    <h1>Файлы сеток</h1>
+    <p th:if="${ok}" th:text="${ok}" class="status"></p>
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <p>Покрытие: <b th:text="${p.coverage}">…</b></p>
+
+    <table class="grid">
+        <thead>
+        <tr><th>План</th><th>Участников</th><th>Источник</th><th>Валидность</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${p.plans}">
+            <td th:text="${row.letter}">A</td>
+            <td th:text="${row.min != null ? row.min + '–' + row.max : '—'}">10–18</td>
+            <td th:text="${row.source}">встроенный</td>
+            <td>
+                <span th:if="${row.valid}">✓</span>
+                <span th:unless="${row.valid}" class="error" th:text="${'✗ ' + row.violations}">✗</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Загрузить / заменить файл сетки</h2>
+    <p class="muted">JSON проверяется валидатором (инварианты 8.7) и применяется только при отсутствии нарушений.</p>
+    <form method="post" th:action="@{/admin/plans}" class="stack" style="max-width:680px">
+        <label>Буква плана
+            <select name="letter">
+                <option th:each="l : ${letters}" th:value="${l}" th:text="${l}"></option>
+            </select>
+        </label>
+        <textarea name="json" rows="14" placeholder="Вставьте JSON файла сетки" required></textarea>
+        <button type="submit">Проверить и сохранить</button>
+    </form>
+</main>
+</body>
+</html>

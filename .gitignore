@@ -1,0 +1,32 @@
+# Сборка / Build
+target/
+build/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Агентные / локальные конфиги
+.claude/
+
+# ОС / OS
+.DS_Store
+Thumbs.db
+
+# Логи / временное
+*.log
+
+# Локальные секреты
+.env
+.env.local
+
+# Персональные данные: реальные протоколы и картотеки спортсменов НЕ публикуются.
+# В репозитории — только синтетический пример samples/example-protocol.xlsx.
+samples/*
+!samples/README.md
+!samples/example-protocol.xlsx

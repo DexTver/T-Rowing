@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(${c.name})}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <p class="crumbs"><a th:href="@{/judge}">← Судейская</a></p>
+    <h1 th:text="${c.name}">Соревнование</h1>
+    <p class="status" th:text="${c.statusLabel}">статус</p>
+    <p th:if="${c.description}" class="desc" th:text="${c.description}">описание</p>
+
+    <p th:if="${error}" class="error" th:text="${error}">ошибка</p>
+
+    <p>
+        <a th:href="@{/competitions/{id}(id=${c.id})}">Публичная страница</a> ·
+        <a th:href="@{/judge/competitions/{id}/print(id=${c.id})}">Печать протоколов</a>
+    </p>
+
+    <!-- Дни -->
+    <h2>Дни соревнования</h2>
+    <table th:unless="${c.days.isEmpty()}" class="grid">
+        <thead><tr><th>№</th><th>Дата</th><th>Старт</th></tr></thead>
+        <tbody>
+        <tr th:each="d : ${c.days}">
+            <td th:text="${d.ordinal}">1</td>
+            <td th:text="${d.date}">дата</td>
+            <td th:text="${d.time}">время</td>
+        </tr>
+        </tbody>
+    </table>
+    <form method="post" th:action="@{/judge/competitions/{id}/days(id=${c.id})}" class="filters">
+        <label>Дата <input type="date" name="date" required></label>
+        <label>Время старта <input type="time" name="startTime"></label>
+        <button type="submit">Добавить день</button>
+    </form>
+
+    <!-- Категории -->
+    <h2>Категории</h2>
+    <table th:unless="${c.categories.isEmpty()}" class="grid">
+        <thead><tr><th>Категория</th><th>День</th><th>Дистанция</th><th>Статус</th></tr></thead>
+        <tbody>
+        <tr th:each="cat : ${c.categories}">
+            <td><a th:href="@{/judge/categories/{id}(id=${cat.id})}" th:text="${cat.name}">кат.</a></td>
+            <td th:text="${cat.dayLabel}">день</td>
+            <td th:text="${cat.distance} + ' м'">200 м</td>
+            <td th:text="${cat.statusLabel}">статус</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Добавить категорию</h3>
+    <form method="post" th:action="@{/judge/competitions/{id}/categories(id=${c.id})}" class="filters">
+        <label>Название <input type="text" name="name" required></label>
+        <label>День
+            <select name="dayId">
+                <option value="">—</option>
+                <option th:each="d : ${c.days}" th:value="${d.id}" th:text="'День ' + ${d.ordinal}">День 1</option>
+            </select>
+        </label>
+        <label>Класс лодки
+            <select name="boatClass">
+                <option>K1</option><option>K2</option><option>C1</option><option>C2</option>
+            </select>
+        </label>
+        <label>Пол
+            <select name="gender">
+                <option value="MALE">муж</option>
+                <option value="FEMALE">жен</option>
+                <option value="MIXED">микст</option>
+            </select>
+        </label>
+        <label>Дистанция
+            <select name="distanceM">
+                <option>200</option><option>500</option><option>1000</option><option>5000</option>
+            </select>
+        </label>
+        <label>Год с <input type="number" name="birthFrom" style="width:6rem"></label>
+        <label>Год по <input type="number" name="birthTo" style="width:6rem"></label>
+        <label class="chk"><input type="checkbox" name="finalB" value="true"> Финал B</label>
+        <label class="chk"><input type="checkbox" name="finalC" value="true"> Финал C</label>
+        <button type="submit">Добавить категорию</button>
+    </form>
+</main>
+</body>
+</html>

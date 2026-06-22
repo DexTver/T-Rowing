@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Заезд № ' + ${heat.number})}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <p class="crumbs">
+        <a th:href="@{/}">Соревнования</a> /
+        <a th:href="@{/competitions/{id}(id=${heat.competitionId})}" th:text="${heat.competitionName}">соревнование</a>
+    </p>
+    <h1>Заезд № <span th:text="${heat.number}">1</span></h1>
+    <p class="status">
+        <span th:text="${heat.categoryName}">категория</span> · <span th:text="${heat.stageLabel}">этап</span>
+        <span th:unless="${heat.run}" class="muted"> · ещё не пройден</span>
+    </p>
+
+    <table class="grid">
+        <thead>
+        <tr>
+            <th th:if="${heat.run}">Место</th>
+            <th>Дорожка</th>
+            <th>Спортсмен</th>
+            <th>Субъект</th>
+            <th>Спорт-школа</th>
+            <th>Тренер</th>
+            <th>Результат</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${heat.results}">
+            <td th:if="${heat.run}" th:text="${r.place}">1</td>
+            <td th:text="${r.lane}">1</td>
+            <td th:text="${r.athleteName}">спортсмен</td>
+            <td th:text="${r.region}">субъект</td>
+            <td th:text="${r.sportSchool}">школа</td>
+            <td th:text="${r.coachName}">тренер</td>
+            <td th:text="${r.statusLabel}">—</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

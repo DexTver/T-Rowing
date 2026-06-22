@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Создать соревнование')}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <p class="crumbs"><a th:href="@{/judge}">← Судейская</a></p>
+    <h1>Создать соревнование</h1>
+
+    <form method="post" th:action="@{/judge/competitions}" class="stack">
+        <label>Название<br><input type="text" name="name" required></label>
+        <label>Описание<br><textarea name="description" rows="3" cols="50"></textarea></label>
+        <button type="submit">Создать</button>
+    </form>
+    <p class="muted">После создания добавьте дни и категории.</p>
+</main>
+</body>
+</html>

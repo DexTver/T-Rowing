@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(${competition.name})}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <p class="crumbs"><a th:href="@{/}">← Все соревнования</a></p>
+    <h1 th:text="${competition.name}">Название</h1>
+    <p class="status" th:text="${competition.statusLabel}">статус</p>
+    <p th:if="${competition.description}" th:text="${competition.description}" class="desc">Описание</p>
+
+    <h2>Заезды</h2>
+    <p th:if="${competition.days.isEmpty()}" class="muted">Протокол ещё не сформирован.</p>
+
+    <div th:each="day : ${competition.days}" class="day-block">
+        <h3 class="day-title" th:text="${day.title}">День 1</h3>
+        <div class="protocol">
+        <details class="heat" th:each="h : ${day.heats}">
+            <summary>
+                <span class="hno">№<span th:text="${h.number}">1</span></span>
+                <span class="htime" th:text="${h.time}">10:30</span>
+                <span class="hcat">
+                    <b><span th:text="${h.boatClass}">К-1</span> <span th:text="${h.distance}">500</span>&nbsp;м</b>
+                    · <span th:text="${h.categoryName}">категория</span>
+                </span>
+                <span class="hstage" th:text="${h.stageLabel}">этап</span>
+                <span class="hadv muted" th:if="${h.advancement}" th:text="'(' + ${h.advancement} + ')'"></span>
+            </summary>
+
+            <table class="grid lanes">
+                <thead>
+                <tr>
+                    <th th:if="${h.run}">Место</th>
+                    <th>Дор.</th>
+                    <th>Спортсмен</th>
+                    <th>Г.р.</th>
+                    <th th:if="${h.run}">Результат</th>
+                    <th th:unless="${h.run}">Тренер</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${h.lanes}">
+                    <td th:if="${h.run}" th:text="${r.place}">1</td>
+                    <td th:text="${r.lane}">1</td>
+                    <td th:text="${r.athleteName}">спортсмен</td>
+                    <td th:text="${r.birthYear}">2009</td>
+                    <td th:if="${h.run}" th:text="${r.statusLabel}">—</td>
+                    <td th:unless="${h.run}" th:text="${r.coachName}">тренер</td>
+                </tr>
+                </tbody>
+            </table>
+        </details>
+        </div>
+    </div>
+</main>
+</body>
+</html>

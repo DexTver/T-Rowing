@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Результаты и фильтры')}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <h1>Результаты и фильтры</h1>
+
+    <form method="get" th:action="@{/results}" class="filters">
+        <label>Спортсмен <input type="text" name="athlete" th:value="${filter != null ? filter[0] : ''}"></label>
+        <label>Тренер <input type="text" name="coach" th:value="${filter != null ? filter[1] : ''}"></label>
+        <label>Категория <input type="text" name="category" th:value="${filter != null ? filter[2] : ''}"></label>
+        <label>Субъект <input type="text" name="region" th:value="${filter != null ? filter[3] : ''}"></label>
+        <label>Спорт-школа <input type="text" name="school" th:value="${filter != null ? filter[4] : ''}"></label>
+
+        <div th:if="${captchaEnabled}" class="captcha-box">
+            <!-- Сюда встраивается виджет провайдера капчи; токен передаётся параметром "captcha". -->
+            <input type="text" name="captcha" placeholder="Подтверждение (капча)">
+            <span th:if="${captchaError}" class="error">Подтвердите, что вы не робот.</span>
+        </div>
+
+        <button type="submit">Искать</button>
+    </form>
+
+    <p th:if="${searched and rows.isEmpty()}" class="muted">Ничего не найдено.</p>
+
+    <table th:if="${searched and !rows.isEmpty()}" class="grid">
+        <thead>
+        <tr>
+            <th>Соревнование</th>
+            <th>Категория</th>
+            <th>№ заезда</th>
+            <th>Этап</th>
+            <th>Спортсмен</th>
+            <th>Субъект</th>
+            <th>Спорт-школа</th>
+            <th>Тренер</th>
+            <th>Результат</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${rows}">
+            <td><a th:href="@{/competitions/{id}(id=${r.competitionId})}" th:text="${r.competitionName}">соревн.</a></td>
+            <td th:text="${r.categoryName}">категория</td>
+            <td><a th:href="@{/heats/{id}(id=${r.heatId})}" th:text="${r.heatNumber}">1</a></td>
+            <td th:text="${r.stageLabel}">этап</td>
+            <td th:text="${r.athleteName}">спортсмен</td>
+            <td th:text="${r.region}">субъект</td>
+            <td th:text="${r.sportSchool}">школа</td>
+            <td th:text="${r.coachName}">тренер</td>
+            <td th:text="${r.time != '' ? r.time : r.statusLabel}">результат</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

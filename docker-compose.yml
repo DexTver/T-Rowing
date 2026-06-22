@@ -1,0 +1,40 @@
+# Локальный запуск: PostgreSQL + приложение. Reverse-proxy/TLS — отдельным этапом (раздел 11 ТЗ).
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: trowing
+      POSTGRES_USER: trowing
+      POSTGRES_PASSWORD: trowing
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trowing -d trowing"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/trowing
+      SPRING_DATASOURCE_USERNAME: trowing
+      SPRING_DATASOURCE_PASSWORD: trowing
+      # Сменить в проде:
+      APP_ADMIN_LOGIN: admin
+      APP_ADMIN_PASSWORD: admin
+      # Демонстрационные данные (true — заполнить при пустой БД; демо-тренер trainer/trainer):
+      APP_SEED_DEMO: "${APP_SEED_DEMO:-false}"
+      # Лимиты загрузки файлов протоколов Excel:
+      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 25MB
+      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 30MB
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

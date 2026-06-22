@@ -1,0 +1,118 @@
+:root {
+    --bg: #f7f8fa;
+    --fg: #1c2530;
+    --muted: #6b7785;
+    --line: #d9dee5;
+    --accent: #1565c0;
+    --live: #fff4e5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: .6rem 1.2rem;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+}
+
+.topbar .brand { font-weight: 700; text-decoration: none; color: var(--fg); }
+.topbar nav { display: flex; align-items: center; gap: 1rem; flex: 1; }
+.topbar nav .spacer { flex: 1; }
+.topbar a { color: var(--accent); text-decoration: none; }
+
+main { max-width: 1000px; margin: 1.5rem auto; padding: 0 1.2rem; }
+
+h1 { font-size: 1.5rem; }
+.muted { color: var(--muted); }
+.error { color: #c62828; }
+.crumbs { font-size: .9rem; }
+.status { color: var(--muted); margin-top: -.4rem; }
+.desc { white-space: pre-line; }
+
+.inline { display: inline; }
+
+table.grid {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid var(--line);
+}
+table.grid th, table.grid td {
+    text-align: left;
+    padding: .45rem .6rem;
+    border-bottom: 1px solid var(--line);
+}
+table.grid thead th { background: #eef1f5; }
+table.grid tr.live td { background: var(--live); }
+
+.filters { display: flex; flex-wrap: wrap; gap: .8rem; align-items: end; margin-bottom: 1rem; }
+.filters label { display: flex; flex-direction: column; font-size: .85rem; color: var(--muted); }
+.filters input { padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 4px; }
+button { padding: .4rem .9rem; cursor: pointer; }
+.captcha-box { display: flex; flex-direction: column; }
+
+.btn {
+    display: inline-block;
+    padding: .45rem .9rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.stack { display: flex; flex-direction: column; gap: .8rem; max-width: 420px; }
+.stack input, .stack textarea { padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 4px; }
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0; }
+.heatcard { margin: .8rem 0 1.2rem; }
+.heatcard h4 { margin: .2rem 0; }
+.cols { display: flex; gap: 2rem; flex-wrap: wrap; align-items: start; }
+.chk { flex-direction: row; align-items: center; gap: .3rem; color: var(--fg); }
+textarea { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+
+/* Дни соревнования — отдельными таблицами. */
+.day-block { margin-bottom: 1.6rem; }
+.day-title { margin: 1rem 0 .4rem; padding-bottom: .2rem; border-bottom: 2px solid var(--accent); }
+
+/* Протокол: карточки заездов, раскрываемые на месте (раздел 7.1). */
+.protocol { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #fff; }
+.protocol .heat { border-bottom: 1px solid var(--line); }
+.protocol .heat:last-child { border-bottom: none; }
+.protocol summary {
+    list-style: none;
+    cursor: pointer;
+    padding: .5rem .8rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .2rem 1rem;
+}
+.protocol summary::-webkit-details-marker { display: none; }
+.protocol summary:hover { background: #eef4fb; }
+.protocol details[open] > summary { background: #e8eef6; border-bottom: 1px solid var(--line); }
+.protocol .hno { font-weight: 700; min-width: 3rem; }
+.protocol .htime { color: var(--muted); min-width: 3rem; }
+.protocol .hcat { flex: 1; min-width: 14rem; }
+.protocol .hstage { font-weight: 600; color: var(--accent); }
+.protocol .hadv { font-size: .85rem; }
+.protocol table.lanes { border: none; }
+.protocol table.lanes th { background: #f4f6f9; }
+.protocol table.lanes th, .protocol table.lanes td { border-bottom: 1px solid var(--line); }
+
+/* Печать протоколов (раздел 7.3, п.3). */
+@media print {
+    .topbar, .filters, .crumbs, .actions, .no-print { display: none; }
+    body { background: #fff; }
+    table.grid { border-color: #000; }
+    .heatcard { page-break-inside: avoid; }
+    .protocol details { page-break-inside: avoid; }
+    .protocol details[open] table { display: table; }
+}

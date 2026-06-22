@@ -1,0 +1,18 @@
+# Нормализация переводов строк
+* text=auto eol=lf
+
+# Скрипты и обёртки — всегда LF (иначе ломаются в Linux-контейнере)
+mvnw text eol=lf
+*.sh text eol=lf
+
+# Windows-скрипты — CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Бинарные ресурсы
+*.xlsx binary
+*.xls binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jar binary

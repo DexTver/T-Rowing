@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:trowing;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      # Без Docker схему для тестов генерируем из сущностей; Flyway/PostgreSQL — для реального запуска.
+      ddl-auto: create-drop
+    open-in-view: false
+  flyway:
+    enabled: false

@@ -1,0 +1,59 @@
+{
+  "_meta": {
+    "plan": "A",
+    "title": "План А — 10–18 спортсменов",
+    "rule": "Предв.: 1–3 в финал A, 4–7 + лучший по времени в п/ф. П/ф: 1–3 в финал A.",
+    "note": "Поля с префиксом _ движок игнорирует. Варианты А/1, А/2 → \"1\", \"2\"."
+  },
+  "plan": "A",
+  "participants": { "min": 10, "max": 18 },
+  "lanes": 9,
+  "prelims": { "count": 2, "sizing": "even_desc" },
+  "stages": [
+    {
+      "stage": "semifinal",
+      "heats_count": 1,
+      "variants": {
+        "1": [
+          { "target": { "heat": 1, "lane": 5 }, "source": { "type": "place", "place": 4, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "heat": 1, "lane": 6 }, "source": { "type": "place", "place": 5, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "heat": 1, "lane": 2 }, "source": { "type": "place", "place": 6, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "heat": 1, "lane": 8 }, "source": { "type": "place", "place": 7, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "heat": 1, "lane": 4 }, "source": { "type": "place", "place": 4, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "heat": 1, "lane": 3 }, "source": { "type": "place", "place": 5, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "heat": 1, "lane": 7 }, "source": { "type": "place", "place": 6, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "heat": 1, "lane": 1 }, "source": { "type": "place", "place": 7, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "heat": 1, "lane": 9 }, "source": { "type": "best_time", "rank": 1, "pool": { "stage": "prelim", "exclude_advanced": true } } }
+        ],
+        "2": [
+          { "target": { "heat": 1, "lane": 4 }, "source": { "type": "place", "place": 4, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "heat": 1, "lane": 3 }, "source": { "type": "place", "place": 5, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "heat": 1, "lane": 7 }, "source": { "type": "place", "place": 6, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "heat": 1, "lane": 1 }, "source": { "type": "place", "place": 7, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "heat": 1, "lane": 5 }, "source": { "type": "place", "place": 4, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "heat": 1, "lane": 6 }, "source": { "type": "place", "place": 5, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "heat": 1, "lane": 2 }, "source": { "type": "place", "place": 6, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "heat": 1, "lane": 8 }, "source": { "type": "place", "place": 7, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "heat": 1, "lane": 9 }, "source": { "type": "best_time", "rank": 1, "pool": { "stage": "prelim", "exclude_advanced": true } } }
+        ]
+      }
+    },
+    {
+      "stage": "final",
+      "finals": ["A"],
+      "variants": {
+        "default": [
+          { "target": { "final": "A", "lane": 5 }, "source": { "type": "place", "place": 1, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "final": "A", "lane": 3 }, "source": { "type": "place", "place": 2, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "final": "A", "lane": 7 }, "source": { "type": "place", "place": 3, "from": { "stage": "prelim", "heat": 1 } } },
+          { "target": { "final": "A", "lane": 4 }, "source": { "type": "place", "place": 1, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "final": "A", "lane": 6 }, "source": { "type": "place", "place": 2, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "final": "A", "lane": 2 }, "source": { "type": "place", "place": 3, "from": { "stage": "prelim", "heat": 2 } } },
+          { "target": { "final": "A", "lane": 8 }, "source": { "type": "place", "place": 1, "from": { "stage": "semifinal", "heat": 1 } } },
+          { "target": { "final": "A", "lane": 1 }, "source": { "type": "place", "place": 2, "from": { "stage": "semifinal", "heat": 1 } } },
+          { "target": { "final": "A", "lane": 9 }, "source": { "type": "place", "place": 3, "from": { "stage": "semifinal", "heat": 1 } } }
+        ]
+      }
+    }
+  ]
+}

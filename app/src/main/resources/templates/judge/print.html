@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Протоколы — печать')}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <h1 th:text="'Протоколы — ' + ${competitionName}">Протоколы</h1>
+
+    <form method="get" class="filters no-print">
+        <label>С заезда № <input type="number" name="from" style="width:6rem"></label>
+        <label>По заезд № <input type="number" name="to" style="width:6rem"></label>
+        <button type="submit">Показать</button>
+        <button type="button" onclick="window.print()">Печать</button>
+    </form>
+
+    <p th:if="${heats.isEmpty()}" class="muted">Нет сформированных заездов в этом диапазоне.</p>
+
+    <div th:each="h : ${heats}" class="heatcard">
+        <h3>Заезд № <span th:text="${h.number}">1</span> · <span th:text="${h.label}">этап</span></h3>
+        <table class="grid">
+            <thead><tr><th>Дорожка</th><th>Спортсмен</th><th>Результат</th></tr></thead>
+            <tbody>
+            <tr th:each="l : ${h.lanes}">
+                <td th:text="${l.lane}">1</td>
+                <td th:text="${l.athleteName}">ФИО</td>
+                <td th:text="${l.value}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

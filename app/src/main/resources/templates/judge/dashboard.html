@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Судейская — соревнования')}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <h1>Судейская</h1>
+    <p th:if="${ok}" th:text="${ok}" class="status"></p>
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/judge/competitions/new}">+ Создать соревнование</a>
+    </div>
+
+    <h2>Импорт стартового протокола (Excel)</h2>
+    <p class="muted">Загрузите привычный протокол .xlsx — система создаст соревнование с днями,
+        категориями и заездами.</p>
+    <!-- CSRF-токен в query: CsrfFilter не читает параметры из тела multipart-запроса. -->
+    <form method="post" th:action="@{/judge/import(_csrf=${_csrf.token})}" enctype="multipart/form-data" class="stack">
+        <input type="text" name="name" placeholder="Название соревнования (необязательно)">
+        <input type="file" name="file" accept=".xlsx" required>
+        <button type="submit">Импортировать</button>
+    </form>
+
+    <h2>Соревнования</h2>
+    <p th:if="${competitions.isEmpty()}" class="muted">Соревнований ещё нет.</p>
+    <table th:unless="${competitions.isEmpty()}" class="grid">
+        <thead>
+        <tr><th>Соревнование</th><th>Статус</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${competitions}">
+            <td><a th:href="@{/judge/competitions/{id}(id=${c.id})}" th:text="${c.name}">название</a></td>
+            <td th:text="${c.statusLabel}">статус</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

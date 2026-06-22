@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head(${cat.name})}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <p class="crumbs">
+        <a th:href="@{/judge}">Судейская</a> /
+        <a th:href="@{/judge/competitions/{id}(id=${cat.competitionId})}" th:text="${cat.competitionName}">соревнование</a>
+    </p>
+    <h1 th:text="${cat.name}">Категория</h1>
+    <p class="status">
+        <span th:text="${cat.statusLabel}">статус</span>
+        <span th:if="${cat.plan}"> · план <b th:text="${cat.plan}">A</b>, вариант <b th:text="${cat.variant}">1</b></span>
+        <span th:if="${cat.massStart}"> · массовый старт</span>
+    </p>
+
+    <p th:if="${error}" class="error" th:text="${error}">ошибка</p>
+    <p th:if="${ok}" class="muted" th:text="${ok}">ок</p>
+
+    <!-- Действия конечного автомата -->
+    <div class="actions">
+        <form th:if="${cat.canOpen}" method="post" th:action="@{/judge/categories/{id}/open(id=${cat.id})}" class="inline">
+            <button type="submit">Открыть регистрацию</button>
+        </form>
+        <form th:if="${cat.canClose}" method="post" th:action="@{/judge/categories/{id}/close(id=${cat.id})}" class="inline">
+            <button type="submit">Закрыть регистрацию и сформировать протокол</button>
+        </form>
+        <form th:if="${cat.canFormNext}" method="post" th:action="@{/judge/categories/{id}/next(id=${cat.id})}" class="inline">
+            <button type="submit" th:text="${cat.nextActionLabel}">Сформировать следующий этап</button>
+        </form>
+    </div>
+
+    <!-- Заявки -->
+    <h2>Заявки (<span th:text="${cat.entries.size()}">0</span>)</h2>
+    <table th:unless="${cat.entries.isEmpty()}" class="grid">
+        <thead><tr><th>Спортсмен</th><th>Г.р.</th><th>Субъект</th><th>Спорт-школа</th></tr></thead>
+        <tbody>
+        <tr th:each="e : ${cat.entries}">
+            <td th:text="${e.athleteName}">ФИО</td>
+            <td th:text="${e.birthYear}">2008</td>
+            <td th:text="${e.region}">субъект</td>
+            <td th:text="${e.school}">школа</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form th:if="${cat.canAddParticipant}" method="post"
+          th:action="@{/judge/categories/{id}/participants(id=${cat.id})}" class="filters">
+        <label>ФИО <input type="text" name="fullName" required></label>
+        <label>Год рождения <input type="number" name="birthYear" required style="width:6rem"></label>
+        <label>Субъект <input type="text" name="region"></label>
+        <label>Спорт-школа <input type="text" name="school"></label>
+        <button type="submit">Добавить участника</button>
+    </form>
+
+    <!-- Этапы и заезды -->
+    <h2>Этапы</h2>
+    <p th:if="${cat.stages.isEmpty()}" class="muted">Протокол ещё не сформирован.</p>
+
+    <div th:each="st : ${cat.stages}">
+        <h3 th:text="${st.label}">Этап</h3>
+        <div th:each="h : ${st.heats}" class="heatcard">
+            <h4>
+                <a th:href="@{/judge/heats/{id}(id=${h.id})}">
+                    № <span th:text="${h.number}">1</span> · <span th:text="${h.label}">этап</span>
+                </a>
+                <span th:unless="${h.run}" class="muted"> · нет результатов</span>
+            </h4>
+            <table class="grid">
+                <thead><tr><th>Дорожка</th><th>Спортсмен</th><th>Результат</th></tr></thead>
+                <tbody>
+                <tr th:each="l : ${h.lanes}">
+                    <td th:text="${l.lane}">1</td>
+                    <td th:text="${l.athleteName}">ФИО</td>
+                    <td th:text="${l.value}">—</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

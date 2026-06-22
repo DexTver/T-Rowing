@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Тренеру — Соревнования')}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <h1>Подача заявок</h1>
+    <p class="muted" th:if="${competitions.isEmpty()}">Соревнований пока нет.</p>
+
+    <table th:unless="${competitions.isEmpty()}" class="grid">
+        <thead>
+        <tr>
+            <th>Соревнование</th>
+            <th>Регистрация</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${competitions}">
+            <td><a th:href="@{/trainer/competitions/{id}(id=${c.id})}" th:text="${c.name}">Соревнование</a></td>
+            <td>
+                <span th:if="${c.hasOpenRegistration}">открыта</span>
+                <span th:unless="${c.hasOpenRegistration}" class="muted">закрыта</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

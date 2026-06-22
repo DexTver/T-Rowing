@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Гребная база</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header th:fragment="nav" class="topbar">
+    <a class="brand" th:href="@{/}">🚣 Гребная база</a>
+    <nav>
+        <a th:href="@{/}">Соревнования</a>
+        <a th:href="@{/results}">Результаты и фильтры</a>
+        <a sec:authorize="hasAnyRole('TRAINER','ADMIN')" th:href="@{/trainer}">Тренеру</a>
+        <a sec:authorize="hasAnyRole('JUDGE','ADMIN')" th:href="@{/judge}">Судейская</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Админка</a>
+        <span class="spacer"></span>
+        <span sec:authorize="isAnonymous()"><a th:href="@{/login}">Войти</a></span>
+        <span sec:authorize="isAuthenticated()">
+            <b sec:authentication="name">—</b>
+            <form th:action="@{/logout}" method="post" class="inline">
+                <button type="submit">Выйти</button>
+            </form>
+        </span>
+    </nav>
+</header>
+</body>
+</html>

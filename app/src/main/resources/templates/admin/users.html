@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Пользователи')}"></head>
+<body>
+<header th:replace="~{fragments/common :: nav}"></header>
+
+<main>
+    <p class="crumbs"><a th:href="@{/admin}">← Админка</a></p>
+    <h1>Пользователи</h1>
+    <p th:if="${ok}" th:text="${ok}" class="status"></p>
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <h2>Создать учётную запись</h2>
+    <form method="post" th:action="@{/admin/users}" class="stack">
+        <input type="text" name="login" placeholder="Логин" required>
+        <input type="text" name="password" placeholder="Пароль" required>
+        <input type="text" name="displayName" placeholder="Отображаемое имя">
+        <select name="role">
+            <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+        </select>
+        <button type="submit">Создать</button>
+    </form>
+
+    <h2>Список</h2>
+    <table class="grid">
+        <thead>
+        <tr><th>Логин</th><th>Роль</th><th>Имя</th><th>Активен</th><th>Действия</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.login}">login</td>
+            <td colspan="3">
+                <form method="post" th:action="@{/admin/users/{id}(id=${u.id})}" class="inline">
+                    <select name="role">
+                        <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"
+                                th:selected="${r.name() == u.role}"></option>
+                    </select>
+                    <input type="text" name="displayName" th:value="${u.displayName}" placeholder="имя">
+                    <label class="chk"><input type="checkbox" name="active" value="true" th:checked="${u.active}"> активен</label>
+                    <button type="submit">Сохранить</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" th:action="@{/admin/users/{id}/password(id=${u.id})}" class="inline">
+                    <input type="text" name="password" placeholder="новый пароль">
+                    <button type="submit">Сбросить</button>
+                </form>
+                <form method="post" th:action="@{/admin/users/{id}/delete(id=${u.id})}" class="inline"
+                      onsubmit="return confirm('Удалить пользователя?');">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

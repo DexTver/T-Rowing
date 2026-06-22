@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: t-rowing
+  servlet:
+    multipart:
+      # Реальные протоколы Excel с картотекой спортсменов могут весить несколько МБ.
+      max-file-size: 25MB
+      max-request-size: 30MB
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/trowing}
+    username: ${SPRING_DATASOURCE_USERNAME:trowing}
+    password: ${SPRING_DATASOURCE_PASSWORD:trowing}
+  jpa:
+    hibernate:
+      # Схемой владеет Flyway; Hibernate только проверяет соответствие сущностей схеме.
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  thymeleaf:
+    cache: false
+
+# Начальный администратор (создаётся, если в БД нет пользователей). Сменить в проде!
+app:
+  admin:
+    login: ${APP_ADMIN_LOGIN:admin}
+    password: ${APP_ADMIN_PASSWORD:admin}
+
+server:
+  port: ${SERVER_PORT:8080}
