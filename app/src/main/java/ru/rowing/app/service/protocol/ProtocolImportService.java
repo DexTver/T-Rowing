@@ -73,10 +73,12 @@ public class ProtocolImportService {
     private final StageRepository stages;
     private final HeatRepository heats;
     private final ResultRepository results;
+    private final ru.rowing.app.service.PlanCatalog catalog;
 
     public ProtocolImportService(CompetitionRepository competitions, CompetitionDayRepository days,
                                  CategoryRepository categories, AthleteRepository athletes, CoachRepository coaches,
-                                 StageRepository stages, HeatRepository heats, ResultRepository results) {
+                                 StageRepository stages, HeatRepository heats, ResultRepository results,
+                                 ru.rowing.app.service.PlanCatalog catalog) {
         this.competitions = competitions;
         this.days = days;
         this.categories = categories;
@@ -85,6 +87,7 @@ public class ProtocolImportService {
         this.stages = stages;
         this.heats = heats;
         this.results = results;
+        this.catalog = catalog;
     }
 
     @Transactional
@@ -110,9 +113,28 @@ public class ProtocolImportService {
         if (st.competition == null) {
             throw new SeedingException("В файле не найдено ни одного заезда — это не стартовый протокол?");
         }
+        assignPlans(st);
         return new ImportResult(st.competition.getId(), st.dayOrdinal, st.categoryByKey.size(),
                 st.heatCount, st.athleteByKey.size() + st.bibToAthlete.size(),
                 st.bibToAthlete.size(), st.warnings);
+    }
+
+    /**
+     * Для категорий с предварительными заездами определяем число участников N и подбираем план A–N.
+     * Вариант посева не выставляем — его выбирает судья перед формированием следующего этапа.
+     */
+    private void assignPlans(State st) {
+        for (Category cat : st.categoryByKey.values()) {
+            boolean hasPrelim = st.stageByKey.containsKey(cat.getId() + "/" + StageType.PRELIM);
+            if (!hasPrelim) {
+                continue;
+            }
+            int n = st.categoryAthletes.getOrDefault(cat.getId(), java.util.Set.of()).size();
+            String letter = catalog.planLetterForCount(n);
+            if (letter != null) {
+                cat.setPlan(letter);
+            }
+        }
     }
 
     // --- лист «база» -----------------------------------------------------------
@@ -184,6 +206,7 @@ public class ProtocolImportService {
             st.competition.setStartsAt(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
         st.currentHeat = null;
+        st.pending = null;
     }
 
     private void handleHeader(State st, String raw) {
@@ -206,6 +229,46 @@ public class ProtocolImportService {
             c.setStatus(CategoryStatus.PROTOCOL_FORMED);
             return categories.save(c);
         });
+
+        // Заезд не создаём сразу: пустые заготовки (заголовки без спортсменов, напр. будущие
+        // полуфиналы/финалы) пропускаем. Заезд материализуется на первой строке с участником.
+        st.pending = new PendingHeat(p, category);
+        st.currentHeat = null;
+    }
+
+    private void handleDataRow(State st, Row row) {
+        int lane = laneOf(row.getCell(0));
+        if (lane < 1 || lane > 12) {
+            return;
+        }
+        Athlete athlete = resolveAthlete(st, row);
+        if (athlete == null) {
+            return; // пустая дорожка или нераспознанные данные
+        }
+        Heat heat = materializeHeat(st);
+        if (heat == null) {
+            return; // данные вне заголовка заезда
+        }
+        Result res = new Result();
+        res.setHeat(heat);
+        res.setAthlete(athlete);
+        res.setLane(lane);
+        res.setStatus(ResultStatus.NOT_STARTED);
+        results.save(res);
+        st.categoryAthletes.computeIfAbsent(heat.getStage().getCategory().getId(), k -> new java.util.HashSet<>())
+                .add(athlete.getId());
+    }
+
+    /** Создаёт заезд по отложенному заголовку при первой строке с участником (иначе заготовка пропускается). */
+    private Heat materializeHeat(State st) {
+        if (st.currentHeat != null) {
+            return st.currentHeat;
+        }
+        if (st.pending == null) {
+            return null;
+        }
+        ProtocolHeader.Parsed p = st.pending.parsed();
+        Category category = st.pending.category();
 
         Stage stage = st.stageByKey.computeIfAbsent(category.getId() + "/" + p.stage(), k -> {
             Stage s = new Stage();
@@ -230,26 +293,7 @@ public class ProtocolImportService {
         heat.setScheduledStart(scheduledStart(st.currentDay, p.time()));
         st.currentHeat = heats.save(heat);
         st.heatCount++;
-    }
-
-    private void handleDataRow(State st, Row row) {
-        if (st.currentHeat == null) {
-            return;
-        }
-        int lane = laneOf(row.getCell(0));
-        if (lane < 1 || lane > 12) {
-            return;
-        }
-        Athlete athlete = resolveAthlete(st, row);
-        if (athlete == null) {
-            return; // пустая дорожка или нераспознанные данные
-        }
-        Result res = new Result();
-        res.setHeat(st.currentHeat);
-        res.setAthlete(athlete);
-        res.setLane(lane);
-        res.setStatus(ResultStatus.NOT_STARTED);
-        results.save(res);
+        return st.currentHeat;
     }
 
     /** Спортсмен дорожки: сначала по Номеру (колонка B) из базы, иначе по тексту протокола. */
@@ -519,11 +563,16 @@ public class ProtocolImportService {
         return m;
     }
 
+    /** Отложенный заголовок заезда: заезд создаётся только при первой строке с участником. */
+    private record PendingHeat(ProtocolHeader.Parsed parsed, Category category) {
+    }
+
     private static final class State {
         String fallbackName;
         Competition competition;
         CompetitionDay currentDay;
         Heat currentHeat;
+        PendingHeat pending;
         int dayOrdinal;
         int heatCount;
         final Map<String, Category> categoryByKey = new HashMap<>();
@@ -532,6 +581,7 @@ public class ProtocolImportService {
         final Map<Long, Athlete> bibToAthlete = new HashMap<>();
         final Map<String, Athlete> athleteByKey = new HashMap<>();
         final Map<String, Coach> coachByName = new HashMap<>();
+        final Map<Long, java.util.Set<Long>> categoryAthletes = new HashMap<>();
         final List<String> warnings = new ArrayList<>();
     }
 }

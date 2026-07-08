@@ -12,7 +12,7 @@
     <h1 th:text="${cat.name}">Категория</h1>
     <p class="status">
         <span th:text="${cat.statusLabel}">статус</span>
-        <span th:if="${cat.plan}"> · план <b th:text="${cat.plan}">A</b>, вариант <b th:text="${cat.variant}">1</b></span>
+        <span th:if="${cat.plan}"> · план <b th:text="${cat.plan}">A</b><span th:if="${cat.variant}">, вариант <b th:text="${cat.variant}">1</b></span></span>
         <span th:if="${cat.massStart}"> · массовый старт</span>
     </p>
 
@@ -27,10 +27,25 @@
         <form th:if="${cat.canClose}" method="post" th:action="@{/judge/categories/{id}/close(id=${cat.id})}" class="inline">
             <button type="submit">Закрыть регистрацию и сформировать протокол</button>
         </form>
-        <form th:if="${cat.canFormNext}" method="post" th:action="@{/judge/categories/{id}/next(id=${cat.id})}" class="inline">
+
+        <!-- Выбор варианта посева перед формированием следующего этапа (варианты одного плана). -->
+        <form th:if="${cat.plan != null and cat.canFormNext and !cat.variantOptions.isEmpty()}" method="post"
+              th:action="@{/judge/categories/{id}/variant(id=${cat.id})}" class="inline">
+            <label>Вариант сетки
+                <select name="variant">
+                    <option th:each="v : ${cat.variantOptions}" th:value="${v}"
+                            th:text="'вариант ' + ${v}" th:selected="${v == cat.variant}"></option>
+                </select>
+            </label>
+            <button type="submit">Применить</button>
+        </form>
+
+        <form th:if="${cat.canFormNext and !cat.needsVariant}" method="post"
+              th:action="@{/judge/categories/{id}/next(id=${cat.id})}" class="inline">
             <button type="submit" th:text="${cat.nextActionLabel}">Сформировать следующий этап</button>
         </form>
     </div>
+    <p th:if="${cat.needsVariant}" class="muted">Выберите вариант сетки, чтобы сформировать следующий этап.</p>
 
     <!-- Заявки -->
     <h2>Заявки (<span th:text="${cat.entries.size()}">0</span>)</h2>

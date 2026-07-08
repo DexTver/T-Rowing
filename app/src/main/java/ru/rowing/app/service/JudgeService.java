@@ -226,6 +226,14 @@ public class JudgeService {
             return;
         }
 
+        if (cat.getPlan() == null) {
+            throw new SeedingException("Для категории не определён план сетки — доформирование по сетке недоступно "
+                    + "(импортирована нестандартная сетка). Заполните заезды вручную.");
+        }
+        if (cat.getActiveVariant() == null && !catalog.variantOptions(cat.getPlan()).isEmpty()) {
+            throw new SeedingException("Сначала выберите вариант сетки.");
+        }
+
         String toStage = latest.getType() == StageType.PRELIM ? "semifinal" : "final";
         StageType newType = latest.getType() == StageType.PRELIM ? StageType.SEMIFINAL : StageType.FINAL;
         Plan plan = catalog.planByLetter(cat.getPlan());
@@ -244,6 +252,18 @@ public class JudgeService {
         }
         cat.setStatus(newType == StageType.SEMIFINAL
                 ? CategoryStatus.SEMIS_RUNNING : CategoryStatus.FINALS_RUNNING);
+    }
+
+    /** Выбор варианта посева (раздел 8.8): применяется только к ещё не сформированным этапам. */
+    public void setVariant(long categoryId, String variant) {
+        Category cat = category(categoryId);
+        if (cat.getPlan() == null) {
+            throw new SeedingException("У категории не задан план сетки.");
+        }
+        if (!catalog.variantOptions(cat.getPlan()).contains(variant)) {
+            throw new SeedingException("Неизвестный вариант «" + variant + "» для плана " + cat.getPlan() + ".");
+        }
+        cat.setActiveVariant(variant);
     }
 
     // --- ввод результатов ----------------------------------------------------------------

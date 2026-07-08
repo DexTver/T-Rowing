@@ -79,6 +79,27 @@ public class PlanCatalog {
                 .orElseThrow(() -> new SeedingException("Нет плана сетки для " + n + " участников"));
     }
 
+    /** Буква плана для N участников (10..135); {@code null}, если вне диапазона (без исключения). */
+    public String planLetterForCount(int n) {
+        if (n < MIN_PLAN || n > MAX_PLAN) {
+            return null;
+        }
+        return plans.values().stream()
+                .filter(p -> p.participants() != null && p.participants().contains(n))
+                .map(Plan::plan)
+                .findFirst()
+                .orElse(null);
+    }
+
+    /** Варианты посева плана (альтернативные раскладки полуфинала одного плана), например ["1","2"]. */
+    public List<String> variantOptions(String letter) {
+        Plan p = plans.get(letter);
+        if (p == null || p.stage("semifinal") == null || p.stage("semifinal").variants() == null) {
+            return List.of();
+        }
+        return p.stage("semifinal").variants().keySet().stream().sorted().toList();
+    }
+
     /** План по сохранённой букве (для воспроизводимого формирования следующих этапов). */
     public Plan planByLetter(String letter) {
         Plan plan = plans.get(letter);

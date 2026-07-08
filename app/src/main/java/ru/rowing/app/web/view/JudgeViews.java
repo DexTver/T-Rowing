@@ -129,6 +129,7 @@ public final class JudgeViews {
         public final String statusLabel;
         public final String plan;
         public final String variant;
+        public final List<String> variantOptions;
         public final boolean massStart;
         public final List<EntryRow> entries;
         public final List<StageBlock> stages;
@@ -136,12 +137,14 @@ public final class JudgeViews {
         public final boolean canAddParticipant;
         public final boolean canClose;
         public final boolean canFormNext;
+        public final boolean needsVariant;
         public final String nextActionLabel;
 
         public CategoryView(long id, long competitionId, String competitionName, String name, String statusLabel,
-                            String plan, String variant, boolean massStart, List<EntryRow> entries,
-                            List<StageBlock> stages, boolean canOpen, boolean canAddParticipant,
-                            boolean canClose, boolean canFormNext, String nextActionLabel) {
+                            String plan, String variant, List<String> variantOptions, boolean massStart,
+                            List<EntryRow> entries, List<StageBlock> stages, boolean canOpen,
+                            boolean canAddParticipant, boolean canClose, boolean canFormNext,
+                            boolean needsVariant, String nextActionLabel) {
             this.id = id;
             this.competitionId = competitionId;
             this.competitionName = competitionName;
@@ -149,6 +152,7 @@ public final class JudgeViews {
             this.statusLabel = statusLabel;
             this.plan = plan;
             this.variant = variant;
+            this.variantOptions = variantOptions;
             this.massStart = massStart;
             this.entries = entries;
             this.stages = stages;
@@ -156,6 +160,7 @@ public final class JudgeViews {
             this.canAddParticipant = canAddParticipant;
             this.canClose = canClose;
             this.canFormNext = canFormNext;
+            this.needsVariant = needsVariant;
             this.nextActionLabel = nextActionLabel;
         }
     }

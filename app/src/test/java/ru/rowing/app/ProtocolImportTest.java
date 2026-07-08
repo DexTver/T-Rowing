@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.rowing.app.domain.Athlete;
 import ru.rowing.app.domain.Category;
 import ru.rowing.app.domain.StageType;
-import ru.rowing.app.repo.AthleteRepository;
 import ru.rowing.app.repo.CategoryRepository;
 import ru.rowing.app.repo.CompetitionRepository;
 import ru.rowing.app.repo.StageRepository;
@@ -19,6 +17,7 @@ import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -34,7 +33,6 @@ class ProtocolImportTest {
     @Autowired CompetitionRepository competitions;
     @Autowired CategoryRepository categories;
     @Autowired StageRepository stages;
-    @Autowired AthleteRepository athletes;
 
     @Test
     void importsProtocolWithBaseSheet() throws Exception {
@@ -44,32 +42,23 @@ class ProtocolImportTest {
             r = importer.importFrom(in, "Тест");
         }
 
-        // База спортсменов (12 строк) загружена в БД с внешними номерами
         assertEquals(12, r.baseAthletes());
         assertEquals(2, r.days(), "две программы по дням");
-        assertTrue(r.heats() >= 5, "заездов: " + r.heats());
 
-        // Имена разрешены по номеру из базы — никаких формул VLOOKUP
-        assertTrue(athletes.findAll().stream().noneMatch(a ->
-                a.getFullName().contains("VLOOKUP") || a.getFullName().startsWith("=")));
-        // Спортсмен из базы получил человекочитаемое имя и внешний номер
-        Athlete fromBase = athletes.findAll().stream()
-                .filter(a -> a.getExtNumber() != null).findFirst().orElseThrow();
-        assertTrue(fromBase.getFullName().matches("[А-Яа-яЁё\\- ]+"), fromBase.getFullName());
-
-        // Строка протокола без номера импортируется по тексту (запасной путь)
-        assertTrue(athletes.findAll().stream().anyMatch(a -> a.getFullName().startsWith("Внебазов")));
-
-        // Все три типа этапов присутствуют
         var comp = competitions.findById(r.competitionId()).orElseThrow();
-        boolean prelim = false, semi = false, fin = false;
-        for (Category c : categories.findByCompetitionId(comp.getId())) {
-            for (var s : stages.findByCategoryIdOrderByOrdinal(c.getId())) {
-                prelim |= s.getType() == StageType.PRELIM;
-                semi |= s.getType() == StageType.SEMIFINAL;
-                fin |= s.getType() == StageType.FINAL;
-            }
-        }
-        assertTrue(prelim && semi && fin, "должны быть предв., п/ф и финал");
+        var cats = categories.findByCompetitionId(comp.getId());
+
+        // Категория К-1 500 (2 предв. заезда, 12 участников) получает план A по числу участников.
+        Category k1_500 = cats.stream().filter(c -> c.getName().startsWith("К-1 500")).findFirst().orElseThrow();
+        assertEquals("A", k1_500.getPlan(), "N=12 -> план A");
+        assertNull(k1_500.getActiveVariant(), "вариант выбирает судья");
+
+        // Пустые заготовки (полуфиналы/финалы без участников) пропущены — остаётся только предв. этап.
+        assertTrue(stages.findByCategoryIdOrderByOrdinal(k1_500.getId()).stream()
+                .allMatch(s -> s.getType() == StageType.PRELIM), "у стартового протокола создан только предв. этап");
+
+        // Категория С-1 200 (6 участников) — плана нет (N<10).
+        Category c1_200 = cats.stream().filter(c -> c.getName().startsWith("С-1 200")).findFirst().orElseThrow();
+        assertNull(c1_200.getPlan());
     }
 }

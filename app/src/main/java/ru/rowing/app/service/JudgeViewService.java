@@ -50,10 +50,11 @@ public class JudgeViewService {
     private final StageRepository stages;
     private final HeatRepository heats;
     private final ResultRepository results;
+    private final PlanCatalog catalog;
 
     public JudgeViewService(CompetitionRepository competitions, CompetitionDayRepository days,
                             CategoryRepository categories, EntryRepository entries, StageRepository stages,
-                            HeatRepository heats, ResultRepository results) {
+                            HeatRepository heats, ResultRepository results, PlanCatalog catalog) {
         this.competitions = competitions;
         this.days = days;
         this.categories = categories;
@@ -61,6 +62,7 @@ public class JudgeViewService {
         this.stages = stages;
         this.heats = heats;
         this.results = results;
+        this.catalog = catalog;
     }
 
     @Transactional(readOnly = true)
@@ -105,14 +107,18 @@ public class JudgeViewService {
             String nextLabel = latestType == StageType.PRELIM ? "Сформировать полуфиналы"
                     : latestType == StageType.SEMIFINAL ? "Сформировать финалы" : null;
 
+            List<String> variantOptions = cat.getPlan() != null ? catalog.variantOptions(cat.getPlan()) : List.of();
+            // Нужно выбрать вариант, прежде чем формировать следующий этап (есть план и есть из чего выбрать).
+            boolean needsVariant = canFormNext && !variantOptions.isEmpty() && cat.getActiveVariant() == null;
+
             CategoryStatus st = cat.getStatus();
             return new CategoryView(cat.getId(), cat.getCompetition().getId(), cat.getCompetition().getName(),
-                    cat.getName(), Labels.categoryStatus(st), cat.getPlan(), cat.getActiveVariant(),
+                    cat.getName(), Labels.categoryStatus(st), cat.getPlan(), cat.getActiveVariant(), variantOptions,
                     cat.isMassStart(), entryRows, stageBlocks,
                     st == CategoryStatus.DRAFT,
                     st == CategoryStatus.DRAFT || st == CategoryStatus.REGISTRATION_OPEN,
                     st == CategoryStatus.REGISTRATION_OPEN,
-                    canFormNext, nextLabel);
+                    canFormNext, needsVariant, nextLabel);
         });
     }
 

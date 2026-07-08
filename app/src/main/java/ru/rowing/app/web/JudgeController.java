@@ -149,6 +149,12 @@ public class JudgeController {
         return "redirect:/judge/categories/" + id;
     }
 
+    @PostMapping("/judge/categories/{id}/variant")
+    public String setVariant(@PathVariable long id, @RequestParam String variant, RedirectAttributes ra) {
+        run(ra, () -> judge.setVariant(id, variant));
+        return "redirect:/judge/categories/" + id;
+    }
+
     @PostMapping("/judge/categories/{id}/next")
     public String formNext(@PathVariable long id, RedirectAttributes ra) {
         run(ra, () -> judge.formNextStage(id));
