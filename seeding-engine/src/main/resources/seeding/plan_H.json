@@ -2,7 +2,7 @@
   "_meta": {
     "plan": "H",
     "title": "План H — 73–81 спортсменов",
-    "note": "Варианты Н1,Н2. Предв.: 1-4 в п/ф (без добора). Блок финалов D-N."
+    "note": "Варианты Н1,Н2. Предв.: 1-4 в п/ф (без добора). Блок финалов D-N. | НОВЫЕ ПРАВИЛА: финал C — последние три = 1/2/3 из 7-х по времени."
   },
   "plan": "H",
   "participants": {
@@ -1385,43 +1385,43 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 8
+              "lane": 8,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 1,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           },
           {
             "target": {
-              "final": "C",
-              "lane": 1
+              "lane": 1,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 2,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           },
           {
             "target": {
-              "final": "C",
-              "lane": 9
+              "lane": 9,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 3,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           }

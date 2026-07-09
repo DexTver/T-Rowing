@@ -2,7 +2,7 @@
   "_meta": {
     "plan": "I",
     "title": "План I — 82–90 спортсменов",
-    "note": "Варианты И1,И2 (в PDF помечены как Н1/Н2). Предв.: 1-3 + 6 лучших по времени. ШУМ OCR восстановлен: И1/п4 '1 вр'->1 по вр; И2/п3 '3/пр 7'->3/1пр, '3/8пр 2'->3/9пр."
+    "note": "Варианты И1,И2 (в PDF помечены как Н1/Н2). Предв.: 1-3 + 6 лучших по времени. ШУМ OCR восстановлен: И1/п4 '1 вр'->1 по вр; И2/п3 '3/пр 7'->3/1пр, '3/8пр 2'->3/9пр. | НОВЫЕ ПРАВИЛА: финал C — последние три = 1/2/3 из 7-х по времени."
   },
   "plan": "I",
   "participants": {
@@ -1385,43 +1385,43 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 8
+              "lane": 8,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 1,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           },
           {
             "target": {
-              "final": "C",
-              "lane": 1
+              "lane": 1,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 2,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           },
           {
             "target": {
-              "final": "C",
-              "lane": 9
+              "lane": 9,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 3,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           }

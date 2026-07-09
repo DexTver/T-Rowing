@@ -114,6 +114,8 @@ public class AdminViewService {
                         String.join("; ", s.violations()), s.min(), s.max()))
                 .toList();
         List<String> cov = catalog.coverageViolations();
-        return new PlansView(rows, cov.isEmpty() ? "Диапазон 10..135 покрыт без дыр." : String.join("; ", cov));
+        String okMsg = "Диапазон " + ru.rowing.seeding.GridValidator.COVERAGE_MIN + ".."
+                + ru.rowing.seeding.GridValidator.COVERAGE_MAX + " покрыт без дыр.";
+        return new PlansView(rows, cov.isEmpty() ? okMsg : String.join("; ", cov));
     }
 }

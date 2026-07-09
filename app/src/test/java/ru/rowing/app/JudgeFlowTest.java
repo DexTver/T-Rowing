@@ -50,6 +50,8 @@ class JudgeFlowTest {
             judge.addParticipant(cat.getId(), "Спортсмен " + i, 2008, "Регион", "Школа");
         }
 
+        // Для 10–18 по умолчанию A-alt; здесь тестируем стандартный план A — выбираем его явно.
+        judge.setPlan(cat.getId(), "A");
         // Жеребьёвка предварительных (N=18 -> план A, 2 заезда 9+9).
         judge.closeRegistrationAndFormProtocol(cat.getId());
         List<Stage> st = stages.findByCategoryIdOrderByOrdinal(cat.getId());

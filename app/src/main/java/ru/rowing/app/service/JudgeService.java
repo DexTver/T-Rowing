@@ -171,8 +171,31 @@ public class JudgeService {
         } else if (ids.size() < PlanCatalog.MIN_PLAN) {
             formSmallFieldFinal(cat, ids, byId, seed);
         } else {
-            formPrelims(cat, ids, byId, seed);
+            // План: выбранный судьёй, иначе по умолчанию (для 10–18 — A-alt).
+            String letter = cat.getPlan() != null ? cat.getPlan() : catalog.defaultPlanForCount(ids.size());
+            if (PlanCatalog.ALT.equals(letter)) {
+                formAltSemifinals(cat, ids, byId, seed);
+            } else {
+                formPrelims(cat, ids, byId, seed);
+            }
         }
+    }
+
+    /** План A-alt: жеребьёвка сразу в 2 полуфинала (без предварительных); финал — посевом из п/ф. */
+    private void formAltSemifinals(Category cat, List<Long> ids, Map<Long, Athlete> byId, long seed) {
+        Plan plan = catalog.planByLetter(PlanCatalog.ALT);
+        cat.setPlan(PlanCatalog.ALT);
+        cat.setActiveVariant(null);
+
+        Stage semi = newStage(cat, StageType.SEMIFINAL);
+        StageDraw draw = catalog.engine().drawSemifinals(plan, ids, seed);
+        int[] number = {nextHeatNumber(cat)};
+        Instant base = stageBaseStart(cat);
+        int order = 0;
+        for (HeatDraw hd : draw.heats()) {
+            createHeat(semi, hd, byId, number, scheduledAt(base, cat, order++), false);
+        }
+        cat.setStatus(CategoryStatus.SEMIS_RUNNING);
     }
 
     private void formPrelims(Category cat, List<Long> ids, Map<Long, Athlete> byId, long seed) {
@@ -252,6 +275,17 @@ public class JudgeService {
         }
         cat.setStatus(newType == StageType.SEMIFINAL
                 ? CategoryStatus.SEMIS_RUNNING : CategoryStatus.FINALS_RUNNING);
+    }
+
+    /** Выбор плана сетки до формирования протокола (для 10–18 — {@code A-alt} или стандартный {@code A}). */
+    public void setPlan(long categoryId, String letter) {
+        Category cat = category(categoryId);
+        requireStatus(cat, CategoryStatus.DRAFT, CategoryStatus.REGISTRATION_OPEN);
+        if (!PlanCatalog.ALT.equals(letter)) {
+            catalog.planByLetter(letter); // бросит, если план неизвестен
+        }
+        cat.setPlan(letter);
+        cat.setActiveVariant(null);
     }
 
     /** Выбор варианта посева (раздел 8.8): применяется только к ещё не сформированным этапам. */

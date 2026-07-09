@@ -120,19 +120,22 @@ public class ProtocolImportService {
     }
 
     /**
-     * Для категорий с предварительными заездами определяем число участников N и подбираем план A–N.
-     * Вариант посева не выставляем — его выбирает судья перед формированием следующего этапа.
+     * Подбор плана по числу участников N и структуре: категория с предв. заездами → стандартный план A–Q;
+     * категория с полуфиналами без предв. (10–18) → план A-alt (жеребьёвка в 2 п/ф). Вариант не выставляем.
      */
     private void assignPlans(State st) {
         for (Category cat : st.categoryByKey.values()) {
             boolean hasPrelim = st.stageByKey.containsKey(cat.getId() + "/" + StageType.PRELIM);
-            if (!hasPrelim) {
-                continue;
-            }
+            boolean hasSemi = st.stageByKey.containsKey(cat.getId() + "/" + StageType.SEMIFINAL);
             int n = st.categoryAthletes.getOrDefault(cat.getId(), java.util.Set.of()).size();
-            String letter = catalog.planLetterForCount(n);
-            if (letter != null) {
-                cat.setPlan(letter);
+            if (hasPrelim) {
+                String letter = catalog.planLetterForCount(n);
+                if (letter != null) {
+                    cat.setPlan(letter);
+                }
+            } else if (hasSemi && n >= ru.rowing.app.service.PlanCatalog.ALT_MIN
+                    && n <= ru.rowing.app.service.PlanCatalog.ALT_MAX) {
+                cat.setPlan(ru.rowing.app.service.PlanCatalog.ALT);
             }
         }
     }

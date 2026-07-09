@@ -16,8 +16,15 @@ public record StageSpec(
         @JsonProperty("heats_count") Integer heatsCount,
         List<String> finals,
         @JsonProperty("resolution_order") List<String> resolutionOrder,
+        String seeding,
+        String sizing,
         Map<String, List<Assignment>> variants
 ) {
+    /** {@code true}, если этап заполняется жеребьёвкой напрямую (без посева из предыдущего этапа). */
+    public boolean isDraw() {
+        return "draw".equalsIgnoreCase(seeding);
+    }
+
     /** Порядок разрешения финалов: {@code resolution_order}, иначе порядок {@code finals}, иначе только A. */
     public List<String> finalResolutionOrder() {
         if (resolutionOrder != null && !resolutionOrder.isEmpty()) {

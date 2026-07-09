@@ -76,6 +76,34 @@ public final class SeedingEngine {
     }
 
     /**
+     * Жеребьёвка участников напрямую в полуфиналы (план с {@code prelims.count = 0} и полуфиналом
+     * {@code "seeding": "draw"}, напр. план A-alt: 2 полуфинала без предварительных). Дальше финал
+     * формируется посевом из результатов полуфиналов.
+     */
+    public StageDraw drawSemifinals(Plan plan, List<Long> participantIds, long seed) {
+        StageSpec semi = plan.stage("semifinal");
+        if (semi == null || semi.heatsCount() == null) {
+            throw new SeedingException("В плане " + plan.plan() + " нет полуфинала для жеребьёвки");
+        }
+        List<Integer> sizes = PrelimSizing.evenDesc(participantIds.size(), semi.heatsCount());
+
+        List<Long> shuffled = new ArrayList<>(participantIds);
+        Collections.shuffle(shuffled, new Random(seed));
+
+        List<HeatDraw> heats = new ArrayList<>();
+        int cursor = 0;
+        for (int h = 0; h < sizes.size(); h++) {
+            int size = sizes.get(h);
+            List<LaneAssignment> lanes = new ArrayList<>(size);
+            for (int lane = 1; lane <= size; lane++) {
+                lanes.add(new LaneAssignment(lane, shuffled.get(cursor++)));
+            }
+            heats.add(HeatDraw.semifinal(h + 1, lanes));
+        }
+        return new StageDraw("semifinal", heats);
+    }
+
+    /**
      * Особый случай N&lt;10 (раздел 8.2): система отбора не применяется,
      * формируется сразу финал A одним заездом со всеми участниками (дорожки — жеребьёвкой).
      */

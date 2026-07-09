@@ -69,26 +69,42 @@ class PlanDFinalsTest {
         assertTrue(onlyA.finalHeat("B").isEmpty());
         assertTrue(onlyA.finalHeat("C").isEmpty());
 
-        // раскладка финала A не зависит от того, включены ли B/C
+        // раскладка финала A не зависит от того, включены ли B/C (инвариант, не зависит от содержимого плана)
         assertEquals(lanesOf(onlyA.finalHeat("A").orElseThrow()),
                 lanesOf(withBc.finalHeat("A").orElseThrow()));
-
-        // лучший по времени в финал A (дорожка 1) = самый быстрый из 3-их мест = заезд 1, место 3 -> id 13
-        assertEquals(13L, onlyA.finalHeat("A").orElseThrow().lanes().stream()
-                .filter(la -> la.lane() == 1).findFirst().orElseThrow().athleteId());
     }
 
+    /** Селектор place_by_time («X из Y-ых по времени») на синтетическом плане — независимо от файлов сеток. */
     @Test
-    void secondByTimeFromThirdPlacesResolvesCorrectly() {
-        // place_by_time(place=3, rank=2) в финале B = 2-й по времени среди 3-их мест = id 23 (заезд 2, место 3)
-        StageDraw fin = engine.formNextStage(planD, "default", "final", semifinalsOfD(), Set.of("A", "B", "C"));
-        Set<Long> b = new HashSet<>();
-        fin.finalHeat("B").orElseThrow().lanes().forEach(la -> b.add(la.athleteId()));
-        assertTrue(b.contains(23L), "2-й по времени из 3-их мест (id 23) должен быть в финале B: " + b);
-        // и он не должен одновременно оказаться в финале A
-        Set<Long> a = new HashSet<>();
-        fin.finalHeat("A").orElseThrow().lanes().forEach(la -> a.add(la.athleteId()));
-        assertFalse(a.contains(23L));
+    void placeByTimeSelectorPicksNthOfPlaceRankedByTime() {
+        Plan plan = PlanRepository.parse("""
+                { "plan": "T", "participants": {"min":10,"max":18}, "lanes": 2,
+                  "prelims": {"count":2,"sizing":"even_desc"},
+                  "stages": [{ "stage":"final", "finals":["A"], "variants": {"default":[
+                    {"target":{"final":"A","lane":1},"source":{"type":"place_by_time","place":3,"rank":1,"pool":{"stage":"semifinal"}}},
+                    {"target":{"final":"A","lane":2},"source":{"type":"place_by_time","place":3,"rank":2,"pool":{"stage":"semifinal"}}}
+                  ]}}] }
+                """);
+        // два полуфинала; 3-и места: id 13 (время 300) и id 23 (время 350)
+        HeatResults h1 = new HeatResults(1, List.of(
+                new ResultEntry(11, 1, 100L, ResultStatus.OK),
+                new ResultEntry(12, 2, 200L, ResultStatus.OK),
+                new ResultEntry(13, 3, 300L, ResultStatus.OK)));
+        HeatResults h2 = new HeatResults(2, List.of(
+                new ResultEntry(21, 1, 150L, ResultStatus.OK),
+                new ResultEntry(22, 2, 250L, ResultStatus.OK),
+                new ResultEntry(23, 3, 350L, ResultStatus.OK)));
+        StageHistory history = StageHistory.of(new ru.rowing.seeding.runtime.StageResults("semifinal", List.of(h1, h2)));
+
+        StageDraw fin = engine.formNextStage(plan, "default", "final", history, Set.of("A"));
+        HeatDraw finalA = fin.finalHeat("A").orElseThrow();
+        // rank 1 (самый быстрый из 3-их) -> дорожка 1 = id 13; rank 2 -> дорожка 2 = id 23
+        assertEquals(13L, laneAthlete(finalA, 1));
+        assertEquals(23L, laneAthlete(finalA, 2));
+    }
+
+    private static long laneAthlete(HeatDraw heat, int lane) {
+        return heat.lanes().stream().filter(la -> la.lane() == lane).findFirst().orElseThrow().athleteId();
     }
 
     private static List<LaneAssignment> lanesOf(HeatDraw heat) {

@@ -128,6 +128,7 @@ public final class JudgeViews {
         public final String name;
         public final String statusLabel;
         public final String plan;
+        public final List<String> planChoices;
         public final String variant;
         public final List<String> variantOptions;
         public final boolean massStart;
@@ -141,8 +142,8 @@ public final class JudgeViews {
         public final String nextActionLabel;
 
         public CategoryView(long id, long competitionId, String competitionName, String name, String statusLabel,
-                            String plan, String variant, List<String> variantOptions, boolean massStart,
-                            List<EntryRow> entries, List<StageBlock> stages, boolean canOpen,
+                            String plan, List<String> planChoices, String variant, List<String> variantOptions,
+                            boolean massStart, List<EntryRow> entries, List<StageBlock> stages, boolean canOpen,
                             boolean canAddParticipant, boolean canClose, boolean canFormNext,
                             boolean needsVariant, String nextActionLabel) {
             this.id = id;
@@ -151,6 +152,7 @@ public final class JudgeViews {
             this.name = name;
             this.statusLabel = statusLabel;
             this.plan = plan;
+            this.planChoices = planChoices;
             this.variant = variant;
             this.variantOptions = variantOptions;
             this.massStart = massStart;

@@ -1,0 +1,167 @@
+{
+  "_meta": {
+    "plan": "A-alt",
+    "title": "План A (альтернативный) — 10–18 экипажей",
+    "note": "Без предварительных: экипажи распределяются жеребьёвкой сразу в 2 полуфинала (как в предв. обычного плана A). В финал: места 1-4 каждого п/ф + 1 лучший по времени."
+  },
+  "plan": "A-alt",
+  "participants": {
+    "min": 10,
+    "max": 18
+  },
+  "lanes": 9,
+  "prelims": {
+    "count": 0,
+    "sizing": null
+  },
+  "stages": [
+    {
+      "stage": "semifinal",
+      "heats_count": 2,
+      "seeding": "draw",
+      "sizing": "even_desc",
+      "variants": {
+        "default": []
+      }
+    },
+    {
+      "stage": "final",
+      "finals": [
+        "A"
+      ],
+      "resolution_order": [
+        "A"
+      ],
+      "variants": {
+        "default": [
+          {
+            "target": {
+              "lane": 5,
+              "final": "A"
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "semifinal",
+                "heat": 1
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 4,
+              "final": "A"
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "semifinal",
+                "heat": 1
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 8,
+              "final": "A"
+            },
+            "source": {
+              "type": "place",
+              "place": 3,
+              "from": {
+                "stage": "semifinal",
+                "heat": 1
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 2,
+              "final": "A"
+            },
+            "source": {
+              "type": "place",
+              "place": 4,
+              "from": {
+                "stage": "semifinal",
+                "heat": 1
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 6,
+              "final": "A"
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "semifinal",
+                "heat": 2
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "final": "A"
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "semifinal",
+                "heat": 2
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 3,
+              "final": "A"
+            },
+            "source": {
+              "type": "place",
+              "place": 3,
+              "from": {
+                "stage": "semifinal",
+                "heat": 2
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "final": "A"
+            },
+            "source": {
+              "type": "place",
+              "place": 4,
+              "from": {
+                "stage": "semifinal",
+                "heat": 2
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 1,
+              "final": "A"
+            },
+            "source": {
+              "type": "best_time",
+              "rank": 1,
+              "pool": {
+                "stage": "semifinal",
+                "exclude_advanced": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

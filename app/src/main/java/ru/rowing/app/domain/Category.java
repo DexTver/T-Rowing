@@ -73,8 +73,8 @@ public class Category {
     @Column(name = "registration_closes_at")
     private Instant registrationClosesAt;
 
-    /** Буква плана A–N (вычисляется при закрытии регистрации, хранится для воспроизводимости). */
-    @Column(length = 1)
+    /** Буква плана A–Q или {@code A-alt} (вычисляется/выбирается при формировании протокола). */
+    @Column(length = 16)
     private String plan;
 
     @Column(name = "active_variant", length = 8)

@@ -1,18 +1,17 @@
 {
   "_meta": {
-    "plan": "F",
-    "title": "План F — 55–63 спортсмена",
-    "rule": "Предв.: 1–5 + лучший по времени в п/ф, остальные выбывают. П/ф: 1–2 + лучший по времени в финал A; 3 из 3-их + 4 из 4-ых + 2 из 5-ых в финал B; 2 из 5-ых + 4 из 6-ых + 3 лучших по времени в финал C.",
-    "note": "Варианты F1, F2 → \"1\", \"2\". Блок финалов идентичен планам D–N. 'X из Yвр' = place_by_time(place=Y, rank=X). | НОВЫЕ ПРАВИЛА: финал C — последние три = 1/2/3 из 7-х по времени."
+    "plan": "P",
+    "title": "План P — 145–153 экипажей",
+    "note": "Новый план. Предв.: 1-2 + 2 лучших по времени. Полуфиналы реконструированы по закономерности семейства N/O — сверить с PDF."
   },
-  "plan": "F",
+  "plan": "P",
   "participants": {
-    "min": 55,
-    "max": 63
+    "min": 145,
+    "max": 153
   },
   "lanes": 9,
   "prelims": {
-    "count": 7,
+    "count": 17,
     "sizing": "even_desc"
   },
   "stages": [
@@ -23,8 +22,8 @@
         "1": [
           {
             "target": {
-              "heat": 1,
-              "lane": 5
+              "lane": 5,
+              "heat": 1
             },
             "source": {
               "type": "place",
@@ -37,64 +36,8 @@
           },
           {
             "target": {
-              "heat": 1,
-              "lane": 1
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 8
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 2
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 6
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 4
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 4
+              "lane": 6,
+              "heat": 1
             },
             "source": {
               "type": "place",
@@ -107,12 +50,124 @@
           },
           {
             "target": {
-              "heat": 1,
-              "lane": 7
+              "lane": 4,
+              "heat": 1
             },
             "source": {
               "type": "place",
-              "place": 3,
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 9
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 3,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 13
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 17
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 8,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 4
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 2,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 8
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 1,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 12
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 16
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 5,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 2
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 6,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
               "from": {
                 "stage": "prelim",
                 "heat": 6
@@ -121,12 +176,124 @@
           },
           {
             "target": {
-              "heat": 1,
-              "lane": 3
+              "lane": 4,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 10
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 3,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 14
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "heat": 2
             },
             "source": {
               "type": "place",
               "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 1
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 8,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 5
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 2,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 9
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 1,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 13
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 17
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 5,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 3
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 6,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
               "from": {
                 "stage": "prelim",
                 "heat": 7
@@ -135,8 +302,92 @@
           },
           {
             "target": {
-              "heat": 1,
-              "lane": 9
+              "lane": 4,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 11
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 3,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 15
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 2
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 8,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 6
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 2,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 10
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 1,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 14
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "heat": 3
             },
             "source": {
               "type": "best_time",
@@ -149,302 +400,8 @@
           },
           {
             "target": {
-              "heat": 2,
-              "lane": 4
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 5
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 9
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 7
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 3
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 4
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 6
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 5
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 8
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 6
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 1
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 6
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 2
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 7
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 3
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 7
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 5
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 6
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 8
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 4
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 2
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 5
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 9
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 5
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 4
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 6
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 1
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 7
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 2
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 3
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 1
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 5
+              "lane": 5,
+              "heat": 4
             },
             "source": {
               "type": "place",
@@ -457,71 +414,113 @@
           },
           {
             "target": {
-              "heat": 4,
-              "lane": 9
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 4
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 7
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 5
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 6
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 6
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 4
+              "lane": 6,
+              "heat": 4
             },
             "source": {
               "type": "place",
               "place": 1,
               "from": {
                 "stage": "prelim",
+                "heat": 8
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 4,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 12
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 3,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 16
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 3
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 8,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
                 "heat": 7
               }
             }
           },
           {
             "target": {
-              "heat": 4,
-              "lane": 8
+              "lane": 2,
+              "heat": 4
             },
             "source": {
               "type": "place",
-              "place": 4,
+              "place": 2,
               "from": {
                 "stage": "prelim",
-                "heat": 7
+                "heat": 11
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 1,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 15
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "heat": 4
+            },
+            "source": {
+              "type": "best_time",
+              "rank": 2,
+              "pool": {
+                "stage": "prelim",
+                "exclude_advanced": true
               }
             }
           }
@@ -529,428 +528,8 @@
         "2": [
           {
             "target": {
-              "heat": 1,
-              "lane": 7
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 5
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 1
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 2
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 4
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 4
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 6
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 5
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 9
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 5
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 8
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 6
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 1,
-              "lane": 3
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 7
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 8
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 4
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 6
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 9
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 3
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 4
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 7
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 5
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 5
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 6
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 1
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 6
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 2,
-              "lane": 2
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 7
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 5
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 1
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 7
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 4
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 2
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 4
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 8
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 5
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 3
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 6
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 6
-            },
-            "source": {
-              "type": "place",
-              "place": 1,
-              "from": {
-                "stage": "prelim",
-                "heat": 7
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 3,
-              "lane": 9
-            },
-            "source": {
-              "type": "place",
-              "place": 5,
-              "from": {
-                "stage": "prelim",
-                "heat": 7
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 4
-            },
-            "source": {
-              "type": "place",
-              "place": 2,
-              "from": {
-                "stage": "prelim",
-                "heat": 1
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 2
-            },
-            "source": {
-              "type": "place",
-              "place": 4,
-              "from": {
-                "stage": "prelim",
-                "heat": 2
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 7
-            },
-            "source": {
-              "type": "place",
-              "place": 3,
-              "from": {
-                "stage": "prelim",
-                "heat": 3
-              }
-            }
-          },
-          {
-            "target": {
-              "heat": 4,
-              "lane": 5
+              "lane": 6,
+              "heat": 1
             },
             "source": {
               "type": "place",
@@ -963,50 +542,64 @@
           },
           {
             "target": {
-              "heat": 4,
-              "lane": 1
+              "lane": 5,
+              "heat": 1
             },
             "source": {
               "type": "place",
-              "place": 5,
+              "place": 1,
               "from": {
                 "stage": "prelim",
-                "heat": 4
+                "heat": 8
               }
             }
           },
           {
             "target": {
-              "heat": 4,
-              "lane": 8
+              "lane": 3,
+              "heat": 1
             },
             "source": {
               "type": "place",
-              "place": 4,
+              "place": 1,
               "from": {
                 "stage": "prelim",
-                "heat": 5
+                "heat": 12
               }
             }
           },
           {
             "target": {
-              "heat": 4,
-              "lane": 3
+              "lane": 4,
+              "heat": 1
             },
             "source": {
               "type": "place",
-              "place": 3,
+              "place": 1,
               "from": {
                 "stage": "prelim",
-                "heat": 6
+                "heat": 16
               }
             }
           },
           {
             "target": {
-              "heat": 4,
-              "lane": 6
+              "lane": 8,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 3
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "heat": 1
             },
             "source": {
               "type": "place",
@@ -1019,8 +612,414 @@
           },
           {
             "target": {
-              "heat": 4,
-              "lane": 9
+              "lane": 1,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 11
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 2,
+              "heat": 1
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 15
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "heat": 1
+            },
+            "source": {
+              "type": "best_time",
+              "rank": 2,
+              "pool": {
+                "stage": "prelim",
+                "exclude_advanced": true
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 6,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 1
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 5,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 5
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 3,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 9
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 4,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 13
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 8,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 17
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 4
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 1,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 8
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 2,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 12
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "heat": 2
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 16
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 6,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 2
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 5,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 6
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 3,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 10
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 4,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 14
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 8,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 1
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 5
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 1,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 9
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 2,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 13
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "heat": 3
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 17
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 6,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 3
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 5,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 7
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 3,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 11
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 4,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 1,
+              "from": {
+                "stage": "prelim",
+                "heat": 15
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 8,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 2
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 7,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 6
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 1,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 10
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 2,
+              "heat": 4
+            },
+            "source": {
+              "type": "place",
+              "place": 2,
+              "from": {
+                "stage": "prelim",
+                "heat": 14
+              }
+            }
+          },
+          {
+            "target": {
+              "lane": 9,
+              "heat": 4
             },
             "source": {
               "type": "best_time",
@@ -1050,8 +1049,8 @@
         "default": [
           {
             "target": {
-              "final": "A",
-              "lane": 5
+              "lane": 5,
+              "final": "A"
             },
             "source": {
               "type": "place",
@@ -1064,8 +1063,8 @@
           },
           {
             "target": {
-              "final": "A",
-              "lane": 8
+              "lane": 8,
+              "final": "A"
             },
             "source": {
               "type": "place",
@@ -1078,8 +1077,8 @@
           },
           {
             "target": {
-              "final": "A",
-              "lane": 4
+              "lane": 4,
+              "final": "A"
             },
             "source": {
               "type": "place",
@@ -1092,8 +1091,8 @@
           },
           {
             "target": {
-              "final": "A",
-              "lane": 7
+              "lane": 7,
+              "final": "A"
             },
             "source": {
               "type": "place",
@@ -1106,8 +1105,8 @@
           },
           {
             "target": {
-              "final": "A",
-              "lane": 6
+              "lane": 6,
+              "final": "A"
             },
             "source": {
               "type": "place",
@@ -1120,8 +1119,8 @@
           },
           {
             "target": {
-              "final": "A",
-              "lane": 2
+              "lane": 2,
+              "final": "A"
             },
             "source": {
               "type": "place",
@@ -1134,8 +1133,8 @@
           },
           {
             "target": {
-              "final": "A",
-              "lane": 3
+              "lane": 3,
+              "final": "A"
             },
             "source": {
               "type": "place",
@@ -1148,8 +1147,8 @@
           },
           {
             "target": {
-              "final": "A",
-              "lane": 9
+              "lane": 9,
+              "final": "A"
             },
             "source": {
               "type": "place",
@@ -1162,8 +1161,8 @@
           },
           {
             "target": {
-              "final": "A",
-              "lane": 1
+              "lane": 1,
+              "final": "A"
             },
             "source": {
               "type": "best_time",
@@ -1176,8 +1175,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 5
+              "lane": 5,
+              "final": "B"
             },
             "source": {
               "type": "place_by_time",
@@ -1190,8 +1189,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 6
+              "lane": 6,
+              "final": "B"
             },
             "source": {
               "type": "place_by_time",
@@ -1204,8 +1203,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 4
+              "lane": 4,
+              "final": "B"
             },
             "source": {
               "type": "place_by_time",
@@ -1218,8 +1217,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 3
+              "lane": 3,
+              "final": "B"
             },
             "source": {
               "type": "place",
@@ -1232,8 +1231,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 2
+              "lane": 2,
+              "final": "B"
             },
             "source": {
               "type": "place",
@@ -1246,8 +1245,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 7
+              "lane": 7,
+              "final": "B"
             },
             "source": {
               "type": "place",
@@ -1260,8 +1259,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 8
+              "lane": 8,
+              "final": "B"
             },
             "source": {
               "type": "place",
@@ -1274,8 +1273,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 1
+              "lane": 1,
+              "final": "B"
             },
             "source": {
               "type": "place_by_time",
@@ -1288,8 +1287,8 @@
           },
           {
             "target": {
-              "final": "B",
-              "lane": 9
+              "lane": 9,
+              "final": "B"
             },
             "source": {
               "type": "place_by_time",
@@ -1302,8 +1301,8 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 5
+              "lane": 5,
+              "final": "C"
             },
             "source": {
               "type": "place_by_time",
@@ -1316,8 +1315,8 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 6
+              "lane": 6,
+              "final": "C"
             },
             "source": {
               "type": "place_by_time",
@@ -1330,8 +1329,8 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 4
+              "lane": 4,
+              "final": "C"
             },
             "source": {
               "type": "place",
@@ -1344,8 +1343,8 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 3
+              "lane": 3,
+              "final": "C"
             },
             "source": {
               "type": "place",
@@ -1358,8 +1357,8 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 2
+              "lane": 2,
+              "final": "C"
             },
             "source": {
               "type": "place",
@@ -1372,8 +1371,8 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 7
+              "lane": 7,
+              "final": "C"
             },
             "source": {
               "type": "place",

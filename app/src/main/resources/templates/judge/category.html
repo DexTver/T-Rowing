@@ -24,6 +24,19 @@
         <form th:if="${cat.canOpen}" method="post" th:action="@{/judge/categories/{id}/open(id=${cat.id})}" class="inline">
             <button type="submit">Открыть регистрацию</button>
         </form>
+        <!-- Выбор сетки до закрытия регистрации: для 10–18 экипажей A-alt (2 п/ф) или стандартный A. -->
+        <form th:if="${cat.planChoices.size() > 1}" method="post"
+              th:action="@{/judge/categories/{id}/plan(id=${cat.id})}" class="inline">
+            <label>Сетка
+                <select name="plan">
+                    <option th:each="pl : ${cat.planChoices}" th:value="${pl}"
+                            th:text="${pl == 'A-alt' ? 'A-alt (2 п/ф без предвар)' : ('план ' + pl)}"
+                            th:selected="${pl == cat.plan}"></option>
+                </select>
+            </label>
+            <button type="submit">Выбрать сетку</button>
+        </form>
+
         <form th:if="${cat.canClose}" method="post" th:action="@{/judge/categories/{id}/close(id=${cat.id})}" class="inline">
             <button type="submit">Закрыть регистрацию и сформировать протокол</button>
         </form>

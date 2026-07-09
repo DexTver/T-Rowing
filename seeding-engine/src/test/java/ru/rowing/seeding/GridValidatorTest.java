@@ -110,15 +110,15 @@ class GridValidatorTest {
         Plan planA = PlanRepository.fromClasspath("/seeding/plan_A.json");
         ValidationResult result = GridValidator.validateCoverage(List.of(planA));
         assertFalse(result.isValid());
-        assertTrue(result.violations().stream().anyMatch(v -> v.contains("19..135")),
+        assertTrue(result.violations().stream().anyMatch(v -> v.contains("19..162")),
                 () -> result.violations().toString());
     }
 
     @Test
     void coverageOkForContiguousNonOverlappingRanges() {
-        // искусственные планы, полностью покрывающие 10..135 без дыр и пересечений
+        // искусственные планы, полностью покрывающие 10..162 без дыр и пересечений
         Plan a = PlanRepository.parse("{\"plan\":\"A\",\"participants\":{\"min\":10,\"max\":70},\"lanes\":9}");
-        Plan b = PlanRepository.parse("{\"plan\":\"B\",\"participants\":{\"min\":71,\"max\":135},\"lanes\":9}");
+        Plan b = PlanRepository.parse("{\"plan\":\"B\",\"participants\":{\"min\":71,\"max\":162},\"lanes\":9}");
         ValidationResult result = GridValidator.validateCoverage(List.of(a, b));
         assertEquals(List.of(), result.violations());
     }

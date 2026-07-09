@@ -2,7 +2,7 @@
   "_meta": {
     "plan": "J",
     "title": "План J — 91–99 спортсменов",
-    "note": "Варианты J1,J2 (в PDF Н1/Н2). Предв.: 1-3 + 3 лучших по времени. ШУМ OCR в J1: '2/3пр'->3/3пр, '2/4пр'->3/4пр, '2/5пр'->3/5пр."
+    "note": "Варианты J1,J2 (в PDF Н1/Н2). Предв.: 1-3 + 3 лучших по времени. ШУМ OCR в J1: '2/3пр'->3/3пр, '2/4пр'->3/4пр, '2/5пр'->3/5пр. | НОВЫЕ ПРАВИЛА: финал C — последние три = 1/2/3 из 7-х по времени."
   },
   "plan": "J",
   "participants": {
@@ -1385,43 +1385,43 @@
           },
           {
             "target": {
-              "final": "C",
-              "lane": 8
+              "lane": 8,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 1,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           },
           {
             "target": {
-              "final": "C",
-              "lane": 1
+              "lane": 1,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 2,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           },
           {
             "target": {
-              "final": "C",
-              "lane": 9
+              "lane": 9,
+              "final": "C"
             },
             "source": {
-              "type": "best_time",
+              "type": "place_by_time",
+              "place": 7,
               "rank": 3,
               "pool": {
-                "stage": "semifinal",
-                "exclude_advanced": true
+                "stage": "semifinal"
               }
             }
           }

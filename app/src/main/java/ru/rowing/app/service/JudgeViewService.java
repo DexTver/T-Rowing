@@ -112,8 +112,13 @@ public class JudgeViewService {
             boolean needsVariant = canFormNext && !variantOptions.isEmpty() && cat.getActiveVariant() == null;
 
             CategoryStatus st = cat.getStatus();
+            // Выбор плана доступен до формирования протокола (для 10–18 — A-alt/стандартный A).
+            List<String> planChoices = st == CategoryStatus.REGISTRATION_OPEN && !cat.isMassStart()
+                    ? catalog.planChoicesForCount(entryRows.size()) : List.of();
+
             return new CategoryView(cat.getId(), cat.getCompetition().getId(), cat.getCompetition().getName(),
-                    cat.getName(), Labels.categoryStatus(st), cat.getPlan(), cat.getActiveVariant(), variantOptions,
+                    cat.getName(), Labels.categoryStatus(st), cat.getPlan(), planChoices,
+                    cat.getActiveVariant(), variantOptions,
                     cat.isMassStart(), entryRows, stageBlocks,
                     st == CategoryStatus.DRAFT,
                     st == CategoryStatus.DRAFT || st == CategoryStatus.REGISTRATION_OPEN,

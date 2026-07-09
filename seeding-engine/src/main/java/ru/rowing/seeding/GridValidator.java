@@ -26,7 +26,7 @@ public final class GridValidator {
 
     /** Покрываемый планами диапазон числа участников (раздел 8.7, инвариант 6). */
     public static final int COVERAGE_MIN = 10;
-    public static final int COVERAGE_MAX = 135;
+    public static final int COVERAGE_MAX = 162;
 
     private GridValidator() {
     }
@@ -56,6 +56,9 @@ public final class GridValidator {
     private static void validatePrelimSizes(Plan plan, int lanes, List<String> violations, String id) {
         if (plan.participants() == null || plan.prelims() == null) {
             return;
+        }
+        if (plan.prelims().count() <= 0) {
+            return; // план без предварительных (жеребьёвка сразу в полуфиналы, напр. A-alt)
         }
         for (int n = plan.participants().min(); n <= plan.participants().max(); n++) {
             List<Integer> sizes;

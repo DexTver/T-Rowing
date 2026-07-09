@@ -26,9 +26,9 @@ import java.util.Map;
 public class PlanCatalog {
 
     public static final int MIN_PLAN = 10;
-    public static final int MAX_PLAN = 135;
+    public static final int MAX_PLAN = 162;
     public static final String[] LETTERS = {
-            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q"
     };
 
     /** Статус плана для админки: источник, валидность, нарушения, диапазон участников. */
@@ -36,10 +36,16 @@ public class PlanCatalog {
                              List<String> violations, Integer min, Integer max) {
     }
 
+    /** Особый план для 10–18 экипажей: жеребьёвка сразу в 2 полуфинала (вне общего покрытия A–Q). */
+    public static final String ALT = "A-alt";
+    public static final int ALT_MIN = 10;
+    public static final int ALT_MAX = 18;
+
     private final SeedingEngine engine = new SeedingEngine();
     private final SeedingPlanRepository store;
     private final Map<String, Plan> plans = new LinkedHashMap<>();
     private final Map<String, String> source = new LinkedHashMap<>();
+    private Plan planAAlt;
 
     public PlanCatalog(SeedingPlanRepository store) {
         this.store = store;
@@ -53,10 +59,16 @@ public class PlanCatalog {
             plans.put(letter, PlanRepository.fromClasspath("/seeding/plan_" + letter + ".json"));
             source.put(letter, "встроенный");
         }
+        planAAlt = PlanRepository.fromClasspath("/seeding/plan_A-alt.json");
         for (SeedingPlanFile file : store.findAll()) {
             try {
-                plans.put(file.getLetter(), PlanRepository.parse(file.getJson()));
-                source.put(file.getLetter(), "загружен");
+                Plan parsed = PlanRepository.parse(file.getJson());
+                if (ALT.equals(file.getLetter())) {
+                    planAAlt = parsed; // особый план не входит в общее покрытие A–Q
+                } else {
+                    plans.put(file.getLetter(), parsed);
+                    source.put(file.getLetter(), "загружен");
+                }
             } catch (SeedingException e) {
                 // повреждённый файл в БД не должен ронять старт — остаётся встроенный план
                 source.put(file.getLetter(), "ошибка БД: " + e.getMessage());
@@ -68,7 +80,7 @@ public class PlanCatalog {
         return engine;
     }
 
-    /** План для числа участников N (10..135). Бросает понятную ошибку вне диапазона. */
+    /** План для числа участников N (10..162). Бросает понятную ошибку вне диапазона. */
     public Plan planForCount(int n) {
         if (n > MAX_PLAN) {
             throw new SeedingException("Слишком много участников (" + n + "): система отбора рассчитана до " + MAX_PLAN);
@@ -79,7 +91,7 @@ public class PlanCatalog {
                 .orElseThrow(() -> new SeedingException("Нет плана сетки для " + n + " участников"));
     }
 
-    /** Буква плана для N участников (10..135); {@code null}, если вне диапазона (без исключения). */
+    /** Буква плана для N участников (10..162); {@code null}, если вне диапазона (без исключения). */
     public String planLetterForCount(int n) {
         if (n < MIN_PLAN || n > MAX_PLAN) {
             return null;
@@ -102,11 +114,31 @@ public class PlanCatalog {
 
     /** План по сохранённой букве (для воспроизводимого формирования следующих этапов). */
     public Plan planByLetter(String letter) {
+        if (ALT.equals(letter)) {
+            return planAAlt;
+        }
         Plan plan = plans.get(letter);
         if (plan == null) {
             throw new SeedingException("Неизвестный план сетки: " + letter);
         }
         return plan;
+    }
+
+    /** План по умолчанию при создании: для 10–18 — {@value #ALT} (наш уровень), иначе стандартный по N. */
+    public String defaultPlanForCount(int n) {
+        if (n >= ALT_MIN && n <= ALT_MAX) {
+            return ALT;
+        }
+        return planLetterForCount(n);
+    }
+
+    /** Планы, среди которых судья может выбрать для данного N (для 10–18 — {@value #ALT} и стандартный A). */
+    public List<String> planChoicesForCount(int n) {
+        if (n >= ALT_MIN && n <= ALT_MAX) {
+            return List.of(ALT, planLetterForCount(n));
+        }
+        String std = planLetterForCount(n);
+        return std == null ? List.of() : List.of(std);
     }
 
     public List<Plan> all() {
@@ -148,7 +180,7 @@ public class PlanCatalog {
         return list;
     }
 
-    /** Нарушения покрытия диапазона 10..135 по всему набору (инвариант 8.7 №6). */
+    /** Нарушения покрытия диапазона 10..162 по всему набору (инвариант 8.7 №6). */
     public List<String> coverageViolations() {
         return GridValidator.validateCoverage(all()).violations();
     }

@@ -10,11 +10,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** Структурная проверка всех поставленных файлов сеток A–N (инварианты 8.7). */
+/** Структурная проверка всех поставленных файлов сеток A–Q (инварианты 8.7). */
 class AllPlansTest {
 
     private static final String[] LETTERS = {
-            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q"
     };
 
     static List<Plan> loadAll() {
@@ -26,7 +26,7 @@ class AllPlansTest {
     }
 
     @ParameterizedTest(name = "план {0}")
-    @ValueSource(strings = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"})
+    @ValueSource(strings = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q"})
     void everyPlanSatisfiesInvariants(String letter) {
         Plan plan = PlanRepository.fromClasspath("/seeding/plan_" + letter + ".json");
         ValidationResult result = GridValidator.validate(plan);
@@ -35,7 +35,7 @@ class AllPlansTest {
     }
 
     @Test
-    void plansCoverTenToOneHundredThirtyFiveWithoutGaps() {
+    void plansCoverTenToOneHundredSixtyTwoWithoutGaps() {
         ValidationResult result = GridValidator.validateCoverage(loadAll());
         assertTrue(result.isValid(),
                 () -> "Покрытие диапазона нарушено:\n - " + String.join("\n - ", result.violations()));
